@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/cart.js" defer></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/profile.js" defer></script>
+
+    <style>
+        .cart-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+            border-radius: 5px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .cart-item-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-quantity button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-item-quantity button:disabled {
+            background-color: #ccc;
+        }
+
+        .cart-item-total {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #cart-items {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .confirm-remove {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            display: none;
+            z-index: 10;
+        }
+
+        .confirm-remove button {
+            margin: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .confirm-remove .yes {
+            background-color: red;
+            color: white;
+        }
+
+        .confirm-remove .no {
+            background-color: green;
+            color: white;
+        }
+
+        #clear-cart {
+            background-color: #ff4c4c;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #clear-cart:hover {
+            background-color: #e60000;
+        }
+
+        .coupon-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .coupon-container input {
+            padding: 10px;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .coupon-container button {
+            background-color: #30d67e;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .coupon-container button:hover {
+            background-color: #00853e;
+        }
+
+        .add-to-mylist {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #00853e;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-to-mylist:hover {
+            background-color: #00b336;
+            transform: translateY(-2px);
+        }
+
+        .add-to-mylist:active {
+            background-color: #00853e;
+            transform: translateY(0);
+        }
+
+        #checkout {
+            background-color: #30d67e;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #checkout:hover {
+            background-color: #00853e;
+        }
+
+        .details-container {
+            margin-top: 20px;
+            padding: 10px 0;
+        }
+
+        .details-section {
+            margin-bottom: 15px;
+        }
+
+        .details-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .details-section input,
+        .details-section textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .details-section textarea {
+            resize: none;
+            /* Prevents unnecessary resizing */
+        }
+
+        .error {
+            display: block;
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/home-navbar') %>
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+
+    <div class="cart-container">
+        <font size="15">Your Cart</font>
+        <div id="cart-items"></div>
+        <h2 class="cart-total" id="cart-total">Total: ₹0.00</h2>
+
+        <div class="coupon-container">
+            <input type="text" id="coupon-code" placeholder="Enter coupon code">
+            <button id="apply-coupon">Apply</button>
+        </div>
+        <h3 class="cart-total-original" id="cart-total-original" style="display: none;">Original Total: ₹0.00</h3>
+        <h3 class="cart-total-discounted" id="cart-total-discounted" style="display: none;">Discounted Total: ₹0.00</h3>
+
+        <div class="details-container">
+            <h3>Address & Contact Details</h3>
+            <div class="details-section">
+                <label for="address">Address:</label>
+                <textarea id="address" placeholder="Enter your address" rows="4"></textarea>
+                <span class="error" id="address-error"></span>
+            </div>
+            <div class="details-section">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" placeholder="Enter your phone number">
+                <span class="error" id="phone-error"></span>
+            </div>
+            <div class="details-section">
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter your email">
+                <span class="error" id="email-error"></span>
+            </div>
+        </div>
+
+        <button id="clear-cart">Clear Cart</button>
+        <button id="checkout">Proceed to Checkout</button>
+    </div>
+    <footer>
+        <span class="copyright">Copyright 2024 FreshCart</span>
+    </footer>
+    <script>
+
+document.getElementById("checkout").addEventListener("click", async function () {
+    const address = document.getElementById("address").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    
+    // Validation
+    if (!address) {
+        document.getElementById("address-error").innerText = "Please enter your address.";
+        return;
+    }
+    if (!phone.match(/^\d{10}$/)) {
+        document.getElementById("phone-error").innerText = "Enter a valid 10-digit phone number.";
+        return;
+    }
+    if (!email.match(/^\S+@\S+\.\S+$/)) {
+        document.getElementById("email-error").innerText = "Enter a valid email.";
+        return;
+    }
+
+    // ऑर्डर डेटा तैयार करें
+    const orderData = {
+        address,
+        phone,
+        email,
+        items: JSON.parse(localStorage.getItem("cart")) || [],
+        totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
+    };
+
+    try {
+        const response = await fetch("http://localhost:5000/api/orders/order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(orderData),
+        });
+        console.log(response);
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Order Placed Successfully!");
+            localStorage.removeItem("cart"); // कार्ट क्लियर करें
+            document.getElementById("cart-items").innerHTML = "";
+            document.getElementById("cart-total").innerText = "Total: ₹0.00";
+        } else {
+            alert("Something went wrong: " + result.message);
+        }
+    } catch (error) {
+        alert("Error placing order. Please try again later.");
+        console.error("Order Error:", error);
+    }
+});
+
+    </script>
+</body>
+
+</html>

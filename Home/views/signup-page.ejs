@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration, Login, and Forgot Password</title>
+    <link rel="stylesheet" href="../css/loginpage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Registration Section -->
+        <div class="form-box" id="registration-section">
+            <h1 class="title">Sign Up</h1>
+            <div class="underline"></div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="Name" id="reg-name" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email" id="reg-email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Password" id="reg-password" required>
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" class="signupbtn" id="register-btn">Register</button>
+                <a type="button" href="/login" id="show-login">Have An Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+
+        // Register button event listener
+        document.getElementById('register-btn').addEventListener('click', async () => {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            // Validation for empty fields
+            if (!name || !email || !password) {
+                alert("All fields are required!");
+                return;
+            }
+
+            // Email format validation
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Password length validation
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            // API call for registration
+            const response = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: name, email, password }),
+
+            });
+
+            const data = await response.json();
+            if (data.message === 'Email already exists') {
+                alert("This email is already registered. Please login or use another email.");
+            } else if (data.message) {
+                alert(data.message);
+                window.location.href = "/login";
+            } else {
+                alert('Registration failed!');
+            }
+        });
+       
+        // Reset password button event listener
+        document.getElementById('reset-password-btn').addEventListener('click', async () => {
+            const resetToken = document.getElementById('reset-token').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            // Validation for empty fields
+            if (!resetToken || !newPassword) {
+                alert("Please fill in both the reset token and new password.");
+                return;
+            }
+
+            // Password length validation
+            if (newPassword.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ resetToken, newPassword }),
+            });
+
+            const data = await response.json();
+            if (data.message === 'Invalid token') {
+                alert("The reset token is invalid or expired.");
+            } else if (data.message) {
+                alert(data.message);
+                window.location.href = "Home.html";  // Redirect after successful password reset
+            } else {
+                alert('Reset failed!');
+            }
+        });
+    </script>
+</body>
+
+</html>

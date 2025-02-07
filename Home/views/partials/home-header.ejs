@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" ></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+    <script src="../js/loader.js" defer></script>       
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="/home"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="/list">My List</a></li>
+            <li><a href="/order">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="/cart">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+            </ul>
+            <div class="search-container">
+                <form action="javascript:void(0);">
+                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        <!-- Profile Circle -->
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+    <div id="filter-container">
+        <label for="filter-select">Filter by Health Benefit:</label>
+        <select id="filter-select">
+            <option value="">Select</option>
+            <option value="diabetes.html">Diabetes</option>
+            <option value="heart.html">Heart</option>
+            <option value="blood.html">Blood Pressure</option>
+            <option value="high-protein.html">High Protein</option>
+            <option value="less-fat.html">Less Fat</option>
+        </select>
+    </div>
+        
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>

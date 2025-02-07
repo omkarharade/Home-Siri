@@ -80,6 +80,7 @@ form p a {
 /* Button Field Alignment */
 .btn-field {
     width: 100%;
+    text-align: center;
     display: flex;
     justify-content: center; /* Center buttons horizontally */
     gap: 20px; /* Add space between the buttons */
@@ -88,6 +89,23 @@ form p a {
 
 /* Button Styles */
 .btn-field button {
+    background: green;
+    color: white;
+    height: 40px;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: background 1s;
+    flex: 1; /* Allow buttons to take equal width */
+    max-width: 200px; /* Optional max width for buttons */
+}
+
+.btn-field a {
+    align-content: center;
+    font-size:small;
+    text-decoration: none;
+    padding: 1px 2px 0 2px;
     background: green;
     color: white;
     height: 40px;

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration, Login, and Forgot Password</title>
+    <link rel="stylesheet" href="../css/loginpage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="form-box" id="login-section">
+            <h1 class="title">Sign In</h1>
+            <div class="underline"></div>
+
+            <form action="/login", method="post">
+
+                <div class="input-group">
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" id="login-email" required>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" id="login-password" required>
+                    </div>
+                </div>
+                <div class="btn-field">
+                    <button type=" submit" class="signinbtn" id="login-btn">Sign In</button>
+                    <a type="button" href="/signup" id="show-register">New here? Register</a>
+                    <a type="button" id="forgot-password-btn">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -20,7 +20,8 @@ function getCartItems() {
         product.quantity = 1; // Default quantity to 1
         cartItems.push(product); // Add new item
     }
-  
+
+    
     saveCartItems(cartItems); // Save updated cart to localStorage
     console.log("Cart updated:", cartItems); // Debugging
     alert("Item added to cart!");
