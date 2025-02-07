@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-container {
+            max-width: 850px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            font-size: 1.1rem;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .profile-header h1 {
+            margin: 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .profile-header p {
+            margin: 5px 0;
+            color: #777;
+            font-size: 1rem;
+        }
+
+        .edit-profile-form,
+        .edit-address-form {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .edit-profile-form input,
+        .edit-address-form input,
+        .edit-address-form select {
+            width: 90%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: border 0.3s ease;
+        }
+
+        .edit-profile-form input:focus,
+        .edit-address-form input:focus,
+        .edit-address-form select:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .edit-profile-form button,
+        .edit-address-form button,
+        .upgrade-button,
+        .modal-buttons button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .edit-profile-form button:hover,
+        .edit-address-form button:hover,
+        .upgrade-button:hover,
+        .modal-buttons button:hover {
+            background-color: #3c8d40;
+            transform: scale(1.05);
+        }
+
+        .upgrade-button {
+            background-color: #ffd700;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .upgrade-button:hover {
+            background-color: #f0c419;
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-buttons button.cancel {
+            background-color: #ccc;
+            color: black;
+        }
+
+        .modal-buttons button.cancel:hover {
+        background-color: #bbb;
+    }
+
+    .address-list {
+        margin-top: 20px;
+        padding: 10px;
+    }
+
+    .address-list div {
+        padding: 12px;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .address-list div:hover {
+        background-color: #f0f0f0;
+        transform: translateX(5px);
+    }
+
+    .address-list p {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #444;
+    }
+
+    .remove-address {
+        background-color: #e74c3c;
+        color: white;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .remove-address:hover {
+        background-color: #c0392b;
+    }
+
+    .edit-profile-button,
+    .add-address-button {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        margin-bottom: 15px;
+    }
+
+    .edit-profile-button:hover,
+    .add-address-button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url('https://image.shutterstock.com/image-vector/down-arrow-icon-vector-on-260nw-1383521328.jpg') no-repeat scroll right center;
+        background-color: #f4f4f9;
+        padding: 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        width: 90%;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: border 0.3s ease;
+    }
+
+    select:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+
+    #new-address {
+        width: 90%;
+        height: 100px;
+        padding: 14px;
+        margin: 12px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        transition: border 0.3s ease;
+    }
+
+    #new-address:focus {
+        border-color: #4CAF50;
+        outline: none;
+    }
+
+    .save-address {
+        padding: 14px 25px;
+        font-size: 1.1rem;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        margin-top: 15px;
+    }
+
+    .save-address:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+    }
+
+    .order-history-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px; /* Ensure consistent width */
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    height: 150px; /* Set a fixed height */
+}
+
+.order-history-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* Ensures the image fits within the defined dimensions */
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.order-item-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.order-item-details h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.order-item-details p {
+    margin: 4px 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+</style>
+</head>
+
+<body>
+<nav>
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+    </label>
+    <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+    <ul>
+        <li><a class="active" href="home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+        <li><a href="mylist.html">My List</a></li>
+        <li><a href="order.html">Orders</a></li>
+        <li><a id="cart-link" href="cart.html">Cart</a></li>
+        <li><a href="#">Help</a></li>
+        <li><a href="#">About Us</a></li>
+        <div class="right-section">
+    </ul>
+    <div class="search-container">
+        <form action="javascript:void(0);">
+            <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+    </div>
+    </div>
+</nav>
+
+<main class="profile-container">
+    <div class="profile-header">
+        <h1>Welcome, John Doe</h1>
+        <p>Email: johndoe@example.com</p>
+        <p id="membership-status">Status: Free Member</p>
+        <input type="hidden" id="membership-hidden" value="free">
+        <button class="edit-profile-button">Edit Profile</button>
+        <form class="edit-profile-form">
+            <input type="text" placeholder="Enter new name" id="new-name">
+            <input type="email" placeholder="Enter new email" id="new-email">
+            <button type="button" id="save-profile">Save</button>
+        </form>
+    </div>
+
+    <section class="address-management">
+        <h2>Saved Addresses</h2>
+        <button class="add-address-button">Add New Address</button>
+        <div class="new-address-form" style="display: none;">
+            <select id="address-type" class="address-type">
+                <option value="">Select Address Type</option>
+                <option value="Home">Home</option>
+                <option value="Office">Office</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="new-address" placeholder="Enter address" style="display: none;">
+            <button type="button" class="save-address" style="display: none;">Save Address</button>
+        </div>
+        <div class="address-list"></div>
+    </section>
+
+    <section class="order-history">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Order History</h2>
+            <div>
+                <button id="hide-order-history" style="padding: 10px 20px; margin-left: 10px; background-color: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Hide</button>
+                <button id="show-order-history" style="padding: 10px 20px; margin-left: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; display: none;">Show</button>
+            </div>
+        </div>
+        <div id="order-history-list" class="order-history-list">
+            <!-- Order history items will be dynamically inserted here -->
+        </div>
+    </section>
+    
+
+
+    <button class="upgrade-button" id="upgrade-button"  style="padding: 10px 20px; background-color: purple; color: white; border: none; border-radius: 5px; cursor: pointer;">Upgrade to Premium</button>
+</main>
+
+<div class="modal" id="terms-modal">
+    <div class="modal-content">
+        <h2>Terms and Conditions</h2>
+        <p>By upgrading to Premium, you agree to pay ₹500. This membership provides exclusive discounts and other benefits.</p>
+        <div class="modal-buttons">
+            <button id="confirm-upgrade">Confirm</button>
+            <button class="cancel" id="cancel-upgrade">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Handle Profile Editing
+    const editProfileButton = document.querySelector('.edit-profile-button');
+    const editProfileForm = document.querySelector('.edit-profile-form');
+    const profileHeader = document.querySelector('.profile-header');
+
+    editProfileButton.addEventListener('click', () => {
+        editProfileForm.style.display = editProfileForm.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.querySelector('#save-profile').addEventListener('click', () => {
+        const newName = document.querySelector('#new-name').value;
+        const newEmail = document.querySelector('#new-email').value;
+
+        if (newName) profileHeader.querySelector('h1').textContent = `Welcome, ${newName}`;
+        if (newEmail) profileHeader.querySelector('p').textContent = `Email: ${newEmail}`;
+        editProfileForm.style.display = 'none';
+    });
+
+    // Address Management
+    const addAddressButton = document.querySelector('.add-address-button');
+    const newAddressForm = document.querySelector('.new-address-form');
+    const addressTypeDropdown = document.querySelector('#address-type');
+    const newAddressInput = document.querySelector('#new-address');
+    const saveAddressButton = document.querySelector('.save-address');
+    const addressList = document.querySelector('.address-list');
+
+    addAddressButton.addEventListener('click', () => {
+        newAddressForm.style.display = 'block';
+    });
+
+    addressTypeDropdown.addEventListener('change', () => {
+        if (addressTypeDropdown.value) {
+            newAddressInput.style.display = 'block';
+            saveAddressButton.style.display = 'block';
+        } else {
+            newAddressInput.style.display = 'none';
+            saveAddressButton.style.display = 'none';
+        }
+    });
+
+    saveAddressButton.addEventListener('click', () => {
+        const addressType = addressTypeDropdown.value;
+        const address = newAddressInput.value;
+
+        if (address && addressType) {
+            const addressItem = document.createElement('div');
+            addressItem.innerHTML = `
+                <p><strong>${addressType}:</strong> ${address}</p>
+                <button class="remove-address">Remove</button>
+            `;
+            addressList.appendChild(addressItem);
+            newAddressForm.style.display = 'none';
+            addressTypeDropdown.value = '';
+            newAddressInput.value = '';
+            newAddressInput.style.display = 'none';
+            saveAddressButton.style.display = 'none';
+
+            // Add event listener to the remove button
+            addressItem.querySelector('.remove-address').addEventListener('click', () => {
+                addressItem.remove();
+            });
+        }
+    });
+
+    // Open the Terms Modal
+    const upgradeButton = document.getElementById('upgrade-button');
+    const termsModal = document.getElementById('terms-modal');
+    const confirmUpgrade = document.getElementById('confirm-upgrade');
+    const cancelUpgrade = document.getElementById('cancel-upgrade');
+    const membershipStatus = document.getElementById('membership-status');
+    const membershipHidden = document.getElementById('membership-hidden');
+
+    upgradeButton.addEventListener('click', () => {
+        termsModal.style.display = 'flex';
+    });
+
+    cancelUpgrade.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+    });
+
+    // Handle Razorpay Payment
+    confirmUpgrade.addEventListener('click', () => {
+        termsModal.style.display = 'none';
+
+        const options = {
+            key: "rzp_test_ZEsh3BtedaNCaU", // Replace with your Razorpay key
+            amount: 50000, // Amount in paisa (₹500)
+            currency: "INR",
+            name: "FreshCart Premium",
+            description: "Upgrade to Premium Membership",
+            handler: function (response) {
+                alert(`Payment successful! Transaction ID: ${response.razorpay_payment_id}`);
+                membershipStatus.textContent = "Status: Premium Member";
+                membershipHidden.value = "premium";
+
+                const expiryDate = new Date();
+                expiryDate.setHours(expiryDate.getHours() + 1); // Set expiry time to 1 hour from now
+                localStorage.setItem('membershipStatus', 'premium');
+                localStorage.setItem('membershipExpiry', expiryDate);
+            },
+            theme: {
+                color: "#4caf50",
+            },
+        };
+
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+    });
+    // Function to display the countdown timer
+    const displayTimer = () => {
+        const membershipStatus = document.getElementById('membership-status');
+        const expiryTime = new Date(localStorage.getItem('membershipExpiry'));
+
+        if (!expiryTime) {
+            return; // No expiry time found
+        }
+
+        const updateTimer = () => {
+            const now = new Date().getTime();
+            const distance = expiryTime - now;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                membershipStatus.textContent = "Status: Free Member";
+                localStorage.setItem('membershipStatus', 'free');
+                localStorage.removeItem('membershipExpiry');
+                return;
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            membershipStatus.textContent = `Your premium expires in: ${hours}h ${minutes}m ${seconds}s`;
+        };
+
+        const timerInterval = setInterval(updateTimer, 1000);
+    };
+
+    // Check membership status on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const membershipStatus = localStorage.getItem('membershipStatus');
+
+        if (membershipStatus === 'premium') {
+            displayTimer();
+        }
+    });
+    // Display Order History
+    const displayOrderHistory = () => {
+    const orderHistoryList = document.getElementById('order-history-list');
+    const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+
+    if (orderHistory.length === 0) {
+        orderHistoryList.innerHTML = "<p>No order history found.</p>";
+        return;
+    }
+
+    orderHistory.forEach((item, index) => {
+        const orderHistoryItem = document.createElement('div');
+        orderHistoryItem.classList.add('order-history-item');
+
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = item.name;
+
+        const orderItemDetails = document.createElement('div');
+        orderItemDetails.classList.add('order-item-details');
+
+        const itemName = document.createElement('h4');
+        itemName.textContent = item.name;
+
+        const itemPrice = document.createElement('p');
+        itemPrice.textContent = `Price: $${(item.price * item.quantity).toFixed(2)}`;
+
+        const itemQuantity = document.createElement('p');
+        itemQuantity.textContent = `Quantity: ${item.quantity}`;
+
+        // Add the "Delivered" text in green
+        const deliveredStatus = document.createElement('p');
+        deliveredStatus.textContent = "Delivered";
+        deliveredStatus.style.color = "green";
+        deliveredStatus.style.fontWeight = "bold";
+
+        // Add the "View" link
+        const viewLink = document.createElement('a');
+        viewLink.href = `history.html?orderId=${index}`;
+        viewLink.textContent = 'View';
+        viewLink.style.textDecoration = 'none';
+        viewLink.style.color = 'blue';
+        viewLink.style.cursor = 'pointer';
+
+        orderItemDetails.appendChild(itemName);
+        orderItemDetails.appendChild(itemPrice);
+        orderItemDetails.appendChild(itemQuantity);
+        orderItemDetails.appendChild(deliveredStatus); // Append the delivered status
+        orderItemDetails.appendChild(viewLink);
+
+        orderHistoryItem.appendChild(img);
+        orderHistoryItem.appendChild(orderItemDetails);
+
+        orderHistoryList.appendChild(orderHistoryItem);
+    });
+};
+
+// Show and Hide Order History
+const hideButton = document.getElementById('hide-order-history');
+const showButton = document.getElementById('show-order-history');
+const orderHistoryList = document.getElementById('order-history-list');
+
+hideButton.addEventListener('click', () => {
+    orderHistoryList.style.display = 'none';
+    hideButton.style.display = 'none';
+    showButton.style.display = 'inline-block';
+});
+
+showButton.addEventListener('click', () => {
+    orderHistoryList.style.display = 'block';
+    showButton.style.display = 'none';
+    hideButton.style.display = 'inline-block';
+});
+
+
+    // Load the order history when the page is ready
+    document.addEventListener('DOMContentLoaded', displayOrderHistory);
+</script>
+</body>
+
+</html>

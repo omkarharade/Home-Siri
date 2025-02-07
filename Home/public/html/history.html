@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .order-details-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-details-container h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .order-details-container p {
+            font-size: 1.2rem;
+            margin: 5px 0;
+        }
+
+        .order-details-container img {
+            width: 150px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-details-container">
+        <h1>Order Details</h1>
+        <img id="product-image" src="" alt="Product Image">
+        <p id="product-name"></p>
+        <p id="product-quantity"></p>
+        <p id="product-price"></p>
+        <p id="payment-method"></p>
+        <p id="delivery-date"></p>
+        <a href="javascript:history.back()" class="back-button">Back to Order History</a>
+    </div>
+
+    <script>
+        // Fetch query string
+        const params = new URLSearchParams(window.location.search);
+        const orderId = params.get('orderId');
+
+        // Fetch order details from localStorage
+        const orderHistory = JSON.parse(localStorage.getItem("orderHistory")) || [];
+        const order = orderHistory[orderId];
+
+        if (order) {
+            document.getElementById('product-image').src = order.image;
+            document.getElementById('product-name').textContent = `Product Name: ${order.name}`;
+            document.getElementById('product-quantity').textContent = `Quantity: ${order.quantity}`;
+            document.getElementById('product-price').textContent = `Price: $${(order.price * order.quantity).toFixed(2)}`;
+            document.getElementById('payment-method').textContent = `Payment Method: ${order.paymentMethod}`;
+            document.getElementById('delivery-date').textContent = `Delivery Date: ${order.deliveryDate}`;
+        } else {
+            document.querySelector('.order-details-container').innerHTML = '<p>Order not found!</p>';
+        }
+    </script>
+</body>
+</html>

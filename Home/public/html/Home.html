@@ -1,0 +1,261 @@
+
+<!DOCTYPE html> 
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" ></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+    <script src="../js/loader.js" defer></script>       
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="Home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+            </ul>
+            <div class="search-container">
+                <form action="javascript:void(0);">
+                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        <!-- Profile Circle -->
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+    <div id="filter-container">
+        <label for="filter-select">Filter by Health Benefit:</label>
+        <select id="filter-select">
+            <option value="">Select</option>
+            <option value="diabetes.html">Diabetes</option>
+            <option value="heart.html">Heart</option>
+            <option value="blood.html">Blood Pressure</option>
+            <option value="high-protein.html">High Protein</option>
+            <option value="less-fat.html">Less Fat</option>
+        </select>
+    </div>
+        
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+    
+    <ul id="autoWidth" class="container cs-hidden">
+        <!--box-1---------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="vegetable.html">
+                    <img src="../images/Mix.jpeg" alt="Mix of various vegetables">
+                </a>
+            </div>
+            <span>Vegetable</span></a>
+        </li>
+        <!--box-2---------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="fruit.html">
+                    <img src="../images/2.jpg" alt="Fresh fruits assortment">
+                </a>
+            </div>
+            <span>Fruit</span></a>
+        </li>
+        <!--box-3---------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="grain.html">
+                    <img src="../images/3.jpg" alt="Grains and cereals">
+                </a>
+            </div>
+            <span>Grains</span></a>
+        </li>
+        <!--box-4---------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="daily.html">
+                    <img src="../images/4.jpg" alt="Daily accessories">
+                </a>
+            </div>
+            <span>Daily Accessories</span>
+        </li>
+    </ul>
+
+    <section class="new-arrival">
+        <!--heading-------->
+        <div class="arrival-heading">
+            <strong>Most Buyed Product</strong>
+            <p>Most Frequently Buyed Product By Customer</p>
+        </div>
+        <div class="product-container">
+            <div class="product-box" data-id="apple">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/apple.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Apple </h3>
+                    <p class="p-price">₹140</p>
+                    <p class="p-weight">1 kg</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="banana">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/banana.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Banana</h3>
+                    <p class="p-price">₹40</p>
+                    <p class="p-weight">1 Dorzen</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Dragon fruit">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Dragon Fruit.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Dragon Fruit</h3>
+                    <p class="p-price">₹80</p>
+                    <p class="p-weight">200 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Tomato">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/tomato.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Tomato</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="onion">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/onion.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Onion</h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-weight">1 kg</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Beets">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Beets.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart">
+                        <font size=5>+</font>
+                    </button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Beet</h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+
+            <!-- The Modal -->
+            <div id="cartModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Your Cart</h2>
+                    <div id="cart-items"></div>
+                    <h3 id="grand-total">Grand Total: $0.00</h3>
+                    <button id="clear-cart">Clear Cart</button>
+                    <button id="proceed-checkout">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="banner-box f-slide-3">
+        <div class="banner-text-container">
+            <div class="banner-text">
+                <div class="centered">
+                    <div><span>LIMITED Offer</span></div>
+                    <div class="pk"><strong> GET 50% Off<br /> With Promo Code <font>FRESH 50</font> <br>Above ₹250
+                            Order</strong></div>
+                    <a href="#" class="banner-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <section class="services">
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-shipping-fast"></i>
+            <span>Free Shipping</span>
+            <p>Free Shipping for all Mumbai orders</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-headphones-alt"></i>
+            <span>Support 24/7</span>
+            <p>We support 24h a day</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-sync"></i>
+            <span>Trusted And 100% Healthy</span>
+            <p>All Goods Are Directly Imported From Farmer</p>
+        </div>
+    </section>
+
+    <footer>
+        <span class="copyright">
+            Copyright 2024 FreshCart
+        </span>
+        <div class="subscribe">
+            <form>
+                <input type="email" placeholder="Example@gmail.com" required />
+                <input type="submit" value="Subscribe">
+            </form>
+        </div>
+    </footer>
+
+    <script src="../js/cart.js" defer></script>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration, Login, and Forgot Password</title>
+    <link rel="stylesheet" href="../css/loginpage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Registration Section -->
+        <div class="form-box" id="registration-section">
+            <h1 class="title">Sign Up</h1>
+            <div class="underline"></div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="Name" id="reg-name" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email" id="reg-email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Password" id="reg-password" required>
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" class="signupbtn" id="register-btn">Register</button>
+                <button type="button" id="show-login">Have An Account</button>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <div class="form-box" id="login-section" style="display: none;">
+            <h1 class="title">Sign In</h1>
+            <div class="underline"></div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Email" id="login-email" required>
+                </div>
+                <div class="input-field">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Password" id="login-password" required>
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" class="signinbtn" id="login-btn">Sign In</button>
+                <button type="button" id="show-register">New here? Register</button>
+                <button type="button" id="forgot-password-btn">Forgot Password?</button>
+            </div>
+        </div>
+
+        <!-- Forgot Password Section -->
+        <div class="form-box" id="forgot-password-section" style="display: none;">
+            <h1 class="title">Forgot Password</h1>
+            <div class="underline"></div>
+            <div class="input-group">
+                <div class="input-field">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" placeholder="Enter your email" id="reset-email" required>
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" class="resetbtn" id="request-reset-btn">Request Reset</button>
+                <button type="button" id="back-to-login">Back to Login</button>
+            </div>
+        </div>
+
+        <!-- Reset Password Section -->
+        <div class="form-box" id="reset-password-section" style="display: none;">
+            <h1 class="title">Reset Password</h1>
+            <div class="underline"></div>
+            <div class="input-group">
+                <div class="input-field">
+                    <input type="text" placeholder="Reset Token" id="reset-token" required>
+                </div>
+                <div class="input-field">
+                    <input type="password" placeholder="New Password" id="new-password" required>
+                </div>
+            </div>
+            <div class="btn-field">
+                <button type="button" class="resetbtn" id="reset-password-btn">Reset Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Switch between sections
+        document.getElementById('show-login').addEventListener('click', () => {
+            document.getElementById('registration-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        });
+
+        document.getElementById('show-register').addEventListener('click', () => {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('registration-section').style.display = 'block';
+        });
+
+        document.getElementById('forgot-password-btn').addEventListener('click', () => {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('forgot-password-section').style.display = 'block';
+        });
+
+        document.getElementById('back-to-login').addEventListener('click', () => {
+            document.getElementById('forgot-password-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        });
+
+        // Register button event listener
+        document.getElementById('register-btn').addEventListener('click', async () => {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+
+            // Validation for empty fields
+            if (!name || !email || !password) {
+                alert("All fields are required!");
+                return;
+            }
+
+            // Email format validation
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Password length validation
+            if (password.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            // API call for registration
+            const response = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: name, email, password }),
+
+            });
+
+            const data = await response.json();
+            if (data.message === 'Email already exists') {
+                alert("This email is already registered. Please login or use another email.");
+            } else if (data.message) {
+                alert(data.message);
+                window.location.href = "Home.html";
+            } else {
+                alert('Registration failed!');
+            }
+        });
+
+        // Login button event listener
+        document.getElementById('login-btn').addEventListener('click', async () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Validation for empty fields
+            if (!email || !password) {
+                alert("Please fill in both email and password.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+            if (data.message === 'Invalid email or password') {
+                alert("Invalid login credentials. Please check your email and password.");
+            } else if (data.message) {
+                alert(data.message);
+                window.location.href = "Home.html"; // Redirect after successful login
+            } else {
+                alert('Login failed!');
+            }
+        });
+
+        // Forgot password button event listener
+        document.getElementById('request-reset-btn').addEventListener('click', async () => {
+            const email = document.getElementById('reset-email').value;
+
+            // Validation for empty email
+            if (!email) {
+                alert("Please enter your email.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+            if (data.message === 'Email not found') {
+                alert("No account found with this email address.");
+            } else if (data.message) {
+                alert(data.message);
+            } else {
+                alert('Request failed!');
+            }
+        });
+
+        // Reset password button event listener
+        document.getElementById('reset-password-btn').addEventListener('click', async () => {
+            const resetToken = document.getElementById('reset-token').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            // Validation for empty fields
+            if (!resetToken || !newPassword) {
+                alert("Please fill in both the reset token and new password.");
+                return;
+            }
+
+            // Password length validation
+            if (newPassword.length < 6) {
+                alert("Password must be at least 6 characters long.");
+                return;
+            }
+
+            const response = await fetch('http://localhost:5000/api/auth/reset-password', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ resetToken, newPassword }),
+            });
+
+            const data = await response.json();
+            if (data.message === 'Invalid token') {
+                alert("The reset token is invalid or expired.");
+            } else if (data.message) {
+                alert(data.message);
+                window.location.href = "Home.html";  // Redirect after successful password reset
+            } else {
+                alert('Reset failed!');
+            }
+        });
+    </script>
+</body>
+
+</html>

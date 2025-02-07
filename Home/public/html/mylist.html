@@ -1,0 +1,326 @@
+<!DOCTYPE html> 
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" ></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+    <script src="../js/loader.js" defer></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #mylist-items {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .mylist-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .mylist-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .mylist-item-details {
+            width: 100%;
+        }
+
+        .mylist-item-name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .countdown {
+            font-size: 1.2em;
+            color: #ff0000;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .confirm-schedule,
+        .remove {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .confirm-schedule {
+            background-color: #00853e;
+        }
+
+        .confirm-schedule:hover {
+            background-color: #00b336;
+            transform: translateY(-2px);
+        }
+
+        .confirm-schedule:active {
+            background-color: #00853e;
+            transform: translateY(0);
+        }
+
+        .remove {
+            background-color: #ff4c4c;
+        }
+
+        .remove:hover {
+            background-color: #ff0000;
+            transform: translateY(-2px);
+        }
+
+        .remove:active {
+            background-color: #ff4c4c;
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .empty-message {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .message {
+            color: #00853e;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="Home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li>
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            
+        </ul>
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+
+    <h1>My List</h1>
+    <div id="mylist-items"></div>
+      
+    <footer>
+        <p>© 2024 FreshCart. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let activeCountdowns = {};
+
+        function loadMyList() {
+            const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
+            const myListContainer = document.getElementById("mylist-items");
+
+            myListContainer.innerHTML = "";
+
+            if (myListItems.length === 0) {
+                myListContainer.innerHTML = "<p class='empty-message'>Your List Is Empty!</p>";
+                return;
+            }
+
+            myListItems.forEach(item => {
+                const price = parseFloat(item.price);
+                const myListItem = document.createElement("div");
+                myListItem.classList.add("mylist-item");
+                myListItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="mylist-item-details">
+                        <div class="mylist-item-name">${item.name}</div>
+                        <p>Price: ₹${isNaN(price) ? "N/A" : price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity || 1}</p>
+                        <label for="schedule-date-${item.id}">Select Date:</label>
+                        <input type="date" id="schedule-date-${item.id}">
+                        <label for="schedule-time-${item.id}">Select Time:</label>
+                        <input type="time" id="schedule-time-${item.id}" step="1">
+                        <div class="countdown" id="countdown-${item.id}"></div>
+                        <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
+                        <button class="remove" data-id="${item.id}">Remove</button>
+                        <div class="message" id="message-${item.id}"></div>
+                    </div>
+                `;
+                myListContainer.appendChild(myListItem);
+
+                const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
+                if (storedCountdown) {
+                    const targetDate = new Date(storedCountdown.targetDate);
+                    if (targetDate > new Date()) {
+                        startCountdown(item.id, targetDate);
+                    }
+                }
+            });
+
+            document.querySelectorAll('.remove').forEach(button => {
+                button.addEventListener('click', removeProduct);
+            });
+
+            document.querySelectorAll('.confirm-schedule').forEach(button => {
+                button.addEventListener('click', confirmSchedule);
+            });
+        }
+
+        function confirmSchedule(event) {
+            const scheduleButton = event.target;
+            const myListItem = scheduleButton.closest('.mylist-item');
+            const itemId = myListItem.querySelector('.remove').dataset.id;
+
+            const selectedDate = myListItem.querySelector(`#schedule-date-${itemId}`).value;
+            const selectedTime = myListItem.querySelector(`#schedule-time-${itemId}`).value;
+            const dateTime = new Date(`${selectedDate}T${selectedTime}`);
+
+            if (!isNaN(dateTime) && dateTime > new Date()) {
+                if (activeCountdowns[itemId]) {
+                    clearInterval(activeCountdowns[itemId]);
+                    delete activeCountdowns[itemId];
+                }
+
+                localStorage.setItem(`countdown-${itemId}`, JSON.stringify({
+                    targetDate: dateTime.toISOString()
+                }));
+
+                startCountdown(itemId, dateTime);
+            } else {
+                alert("Please select a valid future date and time.");
+            }
+        }
+
+        function startCountdown(itemId, date) {
+            const countdownElement = document.getElementById(`countdown-${itemId}`);
+            const messageElement = document.getElementById(`message-${itemId}`);
+            const confirmButton = document.querySelector(`.confirm-schedule[data-id="${itemId}"]`);
+            const removeButton = document.querySelector(`.remove[data-id="${itemId}"]`);
+
+            if (countdownElement) {
+                countdownElement.style.display = 'block';
+                confirmButton.style.display = 'inline-block';
+                removeButton.style.display = 'inline-block';
+
+                const calculateTimeLeft = () => {
+                    const now = new Date().getTime();
+                    return date.getTime() - now;
+                };
+
+                let timeLeft = calculateTimeLeft();
+
+                activeCountdowns[itemId] = setInterval(() => {
+                    timeLeft -= 1000;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(activeCountdowns[itemId]);
+                        delete activeCountdowns[itemId];
+                        countdownElement.innerHTML = "Order Completed!";
+                        messageElement.innerHTML = "Your Order Will Reach To Your Door Steps Soon 🚚✨!";
+                        localStorage.removeItem(`countdown-${itemId}`);
+                        moveToOrders(itemId);
+                    } else {
+                        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+                        if (hours < 3) {
+                            confirmButton.style.display = 'none';
+                            removeButton.style.display = 'none';
+                            messageElement.innerHTML = "Your order will get displayed soon...";
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function removeProduct(event) {
+            const removeButton = event.target;
+            const myListItem = removeButton.closest('.mylist-item');
+            const itemId = removeButton.dataset.id;
+
+            const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
+            const updatedListItems = myListItems.filter(item => item.id !== itemId);
+            localStorage.setItem("myListItems", JSON.stringify(updatedListItems));
+
+            localStorage.removeItem(`countdown-${itemId}`);
+
+            if (activeCountdowns[itemId]) {
+                clearInterval(activeCountdowns[itemId]);
+                delete activeCountdowns[itemId];
+            }
+
+            loadMyList();
+        }
+
+        function moveToOrders(itemId) {
+            const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            const item = myListItems.find(item => item.id === itemId);
+            if (item) {
+                orders.push(item);
+                localStorage.setItem("orders", JSON.stringify(orders));
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadMyList);
+    </script>
+</body>
+
+</html>

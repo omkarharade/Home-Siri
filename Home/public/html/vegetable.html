@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" defer></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+
+   
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+            </ul>
+            <div class="search-container">
+                <form action="javascript:void(0);">
+                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        <!-- Profile Circle -->
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+            <!-- Filter Dropdown for Premium Members -->
+            <div id="filter-container" style="display: none;">
+                <label for="filter-select">Filter by Health Benefit:</label>
+                <select id="filter-select">
+                    <option value="">Select</option>
+                    <option value="diabetes">Diabetes</option>
+                    <option value="heart">Heart</option>
+                    <option value="blood">Blood Pressure</option>
+                    <option value="high-protein">High Protein</option>
+                    <option value="less-fat">Less Fat</option>
+                </select>
+            </div>
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+    
+    <section></section>
+
+   
+    <ul id="autoWidth" class="container" class="cs-hidden">
+        <!--box-1--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="vegetable.html">
+                    <img src="../images/Mix.jpeg">
+                </a>
+            </div>
+            <span>Vegetable</span>
+        </li>
+        <!--box-2--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="fruit.html">
+                    <img src="../images/2.jpg">
+                </a>
+            </div>
+            <span>Fruits</span>
+        </li>
+        <!--box-3--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="grain.html">
+                    <img src="../images/3.jpg">
+                </a>
+            </div>
+            <span><a href="grain.html">Grains</span></a>
+        </li>
+        <!--box-4--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="daily.html">
+                    <img src="../images/4.jpg">
+                </a>
+            </div>
+            <span>Daily Accessories</span>
+        </li>
+
+    </ul>
+    <section class="new-arrival">
+
+        <!--heading-------->
+        <div class="arrival-heading">
+            <strong>Vegetables</strong>
+            <p>Directly Imported From Farm Without Any Harmfull Preservative </p>
+        <div class="product-container">
+            
+            <div class="product-box" data-id="Potato">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    
+
+                    <img src="../images/Potato.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Potato </h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-price">1 kg</p>
+                </div>
+            </div>
+            
+            <!--product-box-2---------->
+
+
+            <div class="product-box" data-id="carrot">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/carrot.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Carrot</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">1 kg</p>
+                </div>
+            </div>
+            <!--product-box-3---------->
+            <div class="product-box" data-id="Brocolli">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Brocolli.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Brocolli</h3>
+                    <p class="p-price">₹100</p>
+                    <p class="p-weight">200 gm</p>
+                    
+                </div>
+            </div>
+            <!--product-box-4---------->
+            <div class="product-box" data-id="Spinach">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Spinach.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Spinach</h3>
+                    <p class="p-price">₹40</p>
+                    <p class="p-weight">200 gm</p>
+                </div>
+            </div>
+            <!--product-box-5---------->
+            <div class="product-box" data-id="Cauliflower">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Cauliflower.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Cauliflower</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <!--product-box-6---------->
+            <div class="product-box" data-id="Kale">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Kale.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Kale</h3>
+                    <p class="p-price">₹80</p>
+                    <p class="p-weight">200 gm</p>
+                </div>
+            </div>
+            <!--product-box-7---------->
+            <div class="product-box" data-id="Bell Pepper">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Bell Pepper.jpeg.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Green Pepper</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <!--product-box-8---------->
+            <div class="product-box" data-id="tomato">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/tomato.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Tomato</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Cucumber">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Cucumber.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Cucumber</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Zucchini">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Zucchini.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Zucchini</h3>
+                    <p class="p-price">₹60</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Sweet Potato">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Sweet Potato..jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Sweet Potato</h3>
+                    <p class="p-price">₹70</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="onion">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/onion.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Onion</h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-weight">1 kg</p>
+                </div>
+            </div>
+            <div class="product-box">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Green Beans.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Green Beans</h3>
+                    <p class="p-price">₹15</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Radish">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Radish.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details" >
+                    <h3 class="p-name">Radish</h3>
+                    <p class="p-price">₹90</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Beets">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Beets.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Beet</h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Corn">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Corn.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Corn</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">300 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Asparagus">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Asparagus.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Asparagus</h3>
+                    <p class="p-price">₹80</p>
+                    <p class="p-weight">100 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Turnip">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Turnip.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Turnip</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Bitter Gourd">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Bitter Gourd.jpeg.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Bitter Gourd</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Mint Leaves">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Mint Leaves.jpeg.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Mint Leaves</h3>
+                    <p class="p-price">₹10</p>
+                    <p class="p-weight">100 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Drumstick">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Drumstick.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Drumstick</h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Green Chilli">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Green Chilli.jpeg.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Green Chilli</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">50 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Fenugreek Leaves">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Fenugreek Leaves.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Fenugreek Leaves</h3>
+                    <p class="p-price">₹30</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Mushroom">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Mushroom.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Mushroom </h3>
+                    <p class="p-price">₹50</p>
+                    <p class="p-weight">200 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Chilli Pepper">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Red Pepper.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Red Chilli</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Yellow Pepper" >
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Yellow Pepper.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Yellow Pepper </h3>
+                    <p class="p-price">₹90</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Red Pepper">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Red Pepper.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Red Pepper </h3>
+                    <p class="p-price">₹90</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Brinjal">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Brinjal.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Brinjal</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Cabbage">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Cabbage.jpeg.jpg" alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Cabbage</h3>
+                    <p class="p-price">₹20</p>
+                    <p class="p-weight">500 gm</p>
+                </div>
+            </div>
+            <div class="product-box" data-id="Lotus Stem">
+                <div class="product-img">
+                    <div class="discount-label">25% OFF</div>
+                    <img src="../images/Lotus Stem.jpeg.jpg " alt="Product Image">
+                    <button class="add-cart"><font size=5>+</font></button>
+                </div>
+                <div class="product-details">
+                    <h3 class="p-name">Lotus Stem </h3>
+                    <p class="p-price">₹120</p>
+                    <p class="p-weight">250 gm</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- The Modal -->
+        <div id="cartModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Your Cart</h2>
+                <div id="cart-items"></div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    </div>
+    <div class="banner-box f-slide-3">
+
+        <div class="banner-text-container">
+            <div class="banner-text">
+                <div class="centered">
+
+                    <div> <span> LIMITED Offer </span></div>
+                    <div class="pk"><strong> GET 50% Off<br /> With Promo Code <font>FRESH 50</font> <br>Above ₹250
+                            Order</strong></div>
+                    <a href="#" class="banner-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <section class="services">
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-shipping-fast"></i>
+            <span>Free Shipping</span>
+            <p>Free Shipping for all Mumbai order</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-headphones-alt"></i>
+            <span>Support 24/7</span>
+            <p>We support 24h a day</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-sync"></i>
+            <span>Trusted And 100% Healthy</span>
+            <p>All Godds Are Directly Imported From Framer</p>
+        </div>
+
+    </section>
+    <!--footer---------------------------->
+    <footer>
+        <!--copyright-------------->
+        <span class="copyright">
+            Copyright 2024 FreshCart
+        </span>
+        <!--subcribe---------------->
+        <div class="subscribe">
+            <form>
+                <input type="email" placeholder="Example@gmail.com" required />
+                <input type="submit" value="Subscribe">
+            </form>
+        </div>
+
+        
+    </footer>
+    <script src="../js/cart.js"></script>
+</body>
+
+</html>

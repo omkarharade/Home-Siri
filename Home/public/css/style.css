@@ -1,0 +1,1096 @@
+/* Resetting margin, padding, etc. */
+
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #f4f4f4;
+  /* Light background for better contrast */
+}
+
+nav {
+  background: #4caf50;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+label.logo {
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container form {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  padding: 8px;
+  margin-right: 5px;
+  font-size: 17px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+.search-container button {
+  padding: 8px 10px;
+  background: #2c3e50;
+  color: white;
+  font-size: 17px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.3s;
+  /* Smooth transition */
+}
+
+.search-container button:hover {
+  background: #1a252f;
+  /* Slightly darker on hover */
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: white;
+  font-size: 17px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  transition: background 0.3s, opacity 0.3s;
+  /* Smooth transition */
+}
+
+a.active,
+a:hover {
+  background: black;
+  opacity: 0.7;
+  /* Slight transparency */
+}
+
+.checkbtn {
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+#check {
+  display: none;
+}
+
+@media (max-width: 858px) {
+
+  nav ul li {
+    margin: 50px 0;
+  }
+
+  nav ul li a {
+    font-size: 20px;
+  }
+
+  a:hover,
+  a.active {
+    background: none;
+    color: #0082e6;
+  }
+
+  #check:checked~ul {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Container for the product grid */
+.container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.container img {
+  width: 90%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid white;
+  transition: all 0.5s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+.container img:hover {
+  width: 100%;
+}
+
+/* Features Section */
+.feature-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feature-heading h2 {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: #1b1919;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 40px;
+  padding: 5px 30px;
+  border: 1px solid #e0e0e0;
+}
+
+.feature-box {
+  width: 155px;
+  height: 160px;
+  margin: 0 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+.feature-box a img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.item span {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 5px;
+  color: #444444;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Add hover effect for .item */
+.item:hover {
+  opacity: 1;
+  /* Remove opacity */
+  transform: scale(1.05);
+  /* Slight zoom effect */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  /* Smooth transition */
+}
+
+/* Optional: Highlight the text within .item on hover */
+.item:hover span {
+  color: #0b9d8a;
+  /* Highlight text with a brand color */
+  font-weight: bold;
+  /* Emphasize text */
+  transition: color 0.3s ease;
+  /* Smooth color change */
+}
+
+#autoWidth {
+  display: flex;
+  justify-content: center !important;
+  margin: 10px auto 40px auto;
+}
+
+.arrival-heading strong {
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  color: #1b1919;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 40px;
+  padding: 5px 30px;
+  border: 1px solid #e0e0e0;
+}
+
+.arrival-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.arrival-heading strong {
+  color: #ffffff;
+  background-color: #202020;
+  font-weight: 500;
+}
+
+.arrival-heading p {
+  color: #808080;
+  margin: 10px;
+  font-size: 0.9rem;
+}
+
+.product-container {
+  width: 75%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 20px;
+  /* Increased gap to ensure proper spacing between products */
+}
+
+.product-box {
+  flex: 1 1 calc(30% - 20px);
+  /* Increased width of product cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid #ccc;
+  /* Thicker border for better prominence */
+  border-radius: 12px;
+  /* Increased border-radius for a more rounded look */
+  position: relative;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  /* Increased box-shadow for better depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 20px;
+  /* Added padding for more space around the content */
+}
+
+.product-box.visible {
+  display: flex;
+}
+
+.product-box.hidden {
+  display: none;
+}
+
+.product-img {
+  width: 250px;
+  /* Increased width of the image for more prominence */
+  height: 325px;
+  /* Increased height of the image */
+  margin-bottom: 22px;
+  /* Increased margin for better spacing */
+  cursor: pointer;
+}
+
+.product-img img {
+  width: 100%;
+  height: 98%;
+  object-fit: contain;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 15px 20px;
+  /* Increased padding for more spacing */
+  border-top: 2px solid #f3f3f3;
+  /* Thicker border for better separation */
+}
+
+.p-name {
+  color: #333;
+  /* Darker text color for better readability */
+  font-size: 1.2rem;
+  /* Slightly larger font size */
+}
+
+.p-price {
+  color: #007bff;
+  /* Changed to a blue color for better contrast */
+  font-size: 1.4rem;
+  /* Larger font size for price */
+  font-weight: 600;
+  /* Increased font weight for emphasis */
+}
+
+.product-box:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Larger shadow on hover */
+  transform: translateY(-5px);
+  /* Slight hover lift effect */
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .product-box {
+    flex: 1 1 calc(33.33% - 20px);
+    /* 3 items per row on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .product-box {
+    flex: 1 1 calc(50% - 20px);
+    /* 2 items per row on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-box {
+    flex: 1 1 100%;
+    /* 1 item per row on very small screens */
+  }
+}
+
+.filter-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.filter-container label {
+  font-size: 1.1rem;
+  margin-right: 10px;
+  color: #333;
+}
+
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  outline: none;
+  border-color: #0056b3;
+}
+
+select option {
+  padding: 10px;
+  font-size: 16px;
+}
+
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.product-box:hover .add-cart {
+  display: flex;
+}
+
+.new-arrival {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.services {
+  display: flex;
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: auto;
+}
+
+.services-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  min-width: 250px;
+  padding: 20px;
+  margin: 15px;
+  flex-grow: 0.7;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+.services-box i {
+  color: green;
+  font-size: 2rem;
+  margin: 15px;
+}
+
+.services-box span {
+  color: #222222;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+.services-box p {
+  color: #878787;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.banner-box {
+  width: 100%;
+  height: 50vh;
+  margin: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../images/vegiees.jpg');
+  background-size: cover;
+  /* Ensures the image covers the container */
+  background-repeat: no-repeat;
+  background-position: center;
+  /* Center the image */
+  opacity: 1;
+  /* Fully visible */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.banner-text-container {
+  width: 80%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  margin-right: 4%;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 20%;
+}
+
+.banner-text strong {
+  color: white;
+  font-size: 3rem;
+  line-height: 55px;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.banner-text span {
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-weight: 500;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.banner-btn {
+  width: 170px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  background-color: #4caf50;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 14px;
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background 0.3s;
+  /* Smooth transition */
+}
+
+.banner-btn:hover {
+  background-color: #45a049;
+  /* Slightly darker on hover */
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pk {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: -190px;
+  width: 90%;
+}
+
+.banner-text strong font {
+  color: green;
+}
+
+footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid rgb(20, 18, 18);
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  color: #4e4e4e;
+  letter-spacing: 1px;
+}
+
+.subscribe input {
+  width: 240px;
+  height: 43px;
+  padding: 0 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  /* Rounded corners */
+}
+
+.subscribe input[type="submit"] {
+  width: 120px;
+  background-color: #4caf50;
+  color: #ffffff;
+  margin: 0 5px;
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background 0.3s;
+  /* Smooth transition */
+}
+
+.subscribe input[type="submit"]:hover {
+  background-color: #45a049;
+  /* Slightly darker on hover */
+}
+
+.product-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+.product-img img {
+  max-width: 100%;
+}
+
+.product-details {
+  margin-top: 10px;
+}
+
+.quantity {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.product-box {
+  position: relative;
+}
+
+/* Discount label positioning */
+.discount-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Cover the full width of the product box */
+  background-color: purple;
+  color: white;
+  padding: 5px 0;
+  /* Adjust padding for better visibility */
+  font-size: 1.5em;
+  /* Increase font size for emphasis */
+  font-weight: bold;
+  text-align: center;
+  /* Center align the text */
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+/* Adjustments for smaller screens to ensure readability */
+@media (max-width: 600px) {
+  .discount-label {
+    font-size: 4vw;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .discount-label {
+    font-size: 2.5vw;
+  }
+}
+
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  color: #4caf50;
+  border: 2px solid #4caf50;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.profile-circle:hover {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+nav .right-section {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #45a049;
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.profile-header p {
+  margin: 5px 0;
+  color: #777;
+}
+
+.profile-details {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-details li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-details li span {
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #4caf50;
+  padding: 10px 20px;
+}
+
+nav .logo {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: rgb(252, 250, 250);
+  font-size: 16px;
+  padding: 5px 10px;
+  transition: background 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #0c0c0c;
+  border-radius: 5px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+.search-container input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-container button {
+  background-color: #45a049;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  margin-left: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background-color: #3e8e41;
+}
+
+/* Hover effect for product-box */
+/* Enhanced hover effect for product card */
+.product-box {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transition for scale and shadow */
+}
+
+.product-box:hover {
+  transform: scale(1.05);
+  /* Slight zoom effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  /* More pronounced shadow */
+}
+
+/* Highlight product name and price on hover */
+.product-details {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.product-box:hover .p-name,
+.product-box:hover .p-price {
+  color: #0b9d8a;
+  /* Highlight text with brand color */
+  font-weight: bold;
+  /* Emphasize text */
+  transform: scale(1.1);
+  /* Slight enlargement for emphasis */
+}
+
+/* Subtle glow effect for Add to Cart button */
+
+.product-box:hover .add-cart {
+  transform: scale(1.2);
+  /* Slightly larger button */
+  box-shadow: 0 5px 15px rgba(0, 255, 127, 0.4);
+  /* Glow effect */
+}
+
+/* Smooth appearance of discount label */
+.discount-label {
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.product-box:hover .discount-label {
+  opacity: 1;
+  /* Slightly brighten on hover */
+}
+
+/* Style for Add to Cart button */
+
+.add-cart:hover {
+  background-color: #088e1a;
+  /* Slightly darker background */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  /* Add shadow on hover */
+  cursor: pointer;
+}
+
+/* Hover effect without changing button size */
+.product-box:hover .add-cart {
+  transform: translateY(-2px);
+  /* Slight lift effect */
+  box-shadow: 0 5px 15px rgba(0, 255, 127, 0.3);
+  /* Glow effect */
+  background-color: #0fa54bad;
+  /* Change background color on hover */
+}
+
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: #f8f8f8;
+  padding: 10px;
+}
+
+.marquee {
+  display: flex;
+  animation: scrollLeft 15s linear infinite;
+}
+
+.marquee img {
+  margin-right: 20px;
+  height: 100px;
+}
+
+@keyframes scrollLeft {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Style for "No results found" */
+.product-container p {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
+}
+
+/* Hide non-matching product boxes gracefully */
+.product-box {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Loader Styles */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Optional semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  visibility: hidden;
+  /* Initially hidden */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#loader img {
+  width: 100px;
+  /* Adjust spinner size */
+  height: 100px;
+}
+
+#loader.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.toggle-btn {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+  background-color: #333;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.toggle-btn:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    background-color: #333;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  nav ul.active {
+    display: flex;
+  }
+
+  .toggle-btn {
+    display: block;
+  }
+}
+
+/* Additional Styles for Centered Filter Dropdown */
+#filter-container {
+  display: none;
+  /* Initially hidden */
+  margin: 20px auto;
+  /* Center horizontally */
+  text-align: center;
+  /* Center text inside */
+  width: 50%;
+  /* Width of the container */
+  padding: 15px;
+  /* Padding inside the container */
+  border: 1px solid #ccc;
+  /* Border */
+  border-radius: 8px;
+  /* Rounded corners */
+  background-color: #f4f4f9;
+  /* Background color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Box shadow for a subtle effect */
+}
+
+#filter-select {
+  padding: 10px;
+  /* Padding inside the select element */
+  font-size: 1rem;
+  /* Font size */
+  border-radius: 8px;
+  /* Rounded corners */
+  border: 1px solid #ccc;
+  /* Border */
+  width: 100%;
+  /* Full width */
+}
+
+#filter-container label {
+  font-weight: bold;
+  /* Bold font for the label */
+  margin-right: 10px;
+  /* Margin to the right of the label */
+}
+/* ... (previous styles remain unchanged) ... */
+
+.product-img img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.cart-item-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.remove-item {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.remove-item:hover {
+  background-color: #ff3333;
+}

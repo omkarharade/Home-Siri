@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/new.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" defer></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+
+   
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="Home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+            </ul>
+            <div class="search-container">
+                <form action="javascript:void(0);">
+                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        
+        <!-- Profile Circle -->
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+    <section></section>
+        <!-- Filter Dropdown for Premium Members -->
+        <div id="filter-container" style="display: none;">
+            <label for="filter-select">Filter by Health Benefit:</label>
+            <select id="filter-select">
+                <option value="">Select</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="heart">Heart</option>
+                <option value="blood">Blood Pressure</option>
+                <option value="high-protein">High Protein</option>
+                <option value="less-fat">Less Fat</option>
+            </select>
+        </div>
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+    
+    <ul id="autoWidth" class="container" class="cs-hidden">
+        <!--box-1--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="vegetable.html">
+                    <img src="../images/Mix.jpeg">
+                </a>
+            </div>
+            <span>Vegetable</span>
+        </li>
+        <!--box-2--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="fruit.html">
+                    <img src="../images/2.jpg">
+                </a>
+            </div>
+            <span>Fruits</span>
+        </li>
+        <!--box-3--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="grain.html">
+                    <img src="../images/3.jpg">
+                </a>
+            </div>
+            <span>Grains</span>
+        </li>
+        <!--box-4--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="daily.html">
+                    <img src="../images/4.jpg">
+                </a>
+            </div>
+            <span>Daily Accessories</span>
+        </li>
+
+    </ul>
+    <section class="new-arrival">
+
+        <!--heading-------->
+        <div class="arrival-heading">
+            <strong>Grains</strong>
+            <p>Directly Imported From Farm Without Any Harmfull Preservative </p>
+            <div class="product-container">
+
+                <div class="product-box" data-id="Amul basmati rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+
+
+                        <img src="../images/Amul basmati rice.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Amul Basmati Rice </h3>
+                        <p class="p-price">₹210</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!-- Repeat the above structure for each product -->
+                <!--product-box-2---------->
+
+
+                <div class="product-box" data-id="Daawat Basmati Rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Daawat Basmati Rice.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Daawat Basmati Rice</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-3---------->
+                <div class="product-box" data-id="Fortune basmati rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Fortune Basmati Rice.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Fortune Basmati Rice</h3>
+                        <p class="p-price">₹110</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-4---------->
+                <div class="product-box" data-id="Kohinoor Basmati Rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Kohinoor Basmati Rice.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Kohinoor Basmati Rice</h3>
+                        <p class="p-price">₹220</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-5---------->
+                <div class="product-box" data-id="Organic Basmati Rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Organic Basmati Rice.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Organic Basmati Rice</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-6---------->
+                <div class="product-box" data-id="Daawat Kolem Rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Daawat Kolam Rice.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Daawat Kolam Rice</h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-7---------->
+                <div class="product-box" data-id="India gate Kolem Rice">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/India gate Kolam Rice.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">India gate Kolam Rice</h3>
+                        <p class="p-price">₹105</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <!--product-box-8---------->
+                <div class="product-box" data-id="Sunday Sunflower oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Sunday Sunflower oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Sunday Sunflower oil</h3>
+                        <p class="p-price">₹180</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Fortune sunflower oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Fortune sunflower oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Fortune Sunflower oil</h3>
+                        <p class="p-price">₹170</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Gemini Sunflower oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Gemini Sunflower oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Gemini Sunflower oil</h3>
+                        <p class="p-price">₹180</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Dhara Sunflore oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Dhara Sunflower oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Dhara Sunflower oil</h3>
+                        <p class="p-price">₹180</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Figaro Olive oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Figaro Olive oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Figaro Olive oil</h3>
+                        <p class="p-price">₹2000</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Oleev Olive oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Oleev Olive oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Oleev Olive oil</h3>
+                        <p class="p-price">₹650</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Borges Olive oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Borges Olive oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Borges Olive oil</h3>
+                        <p class="p-price">₹1800</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Del Monte Olive oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Del Monte Olive oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Del Monte Olive oil</h3>
+                        <p class="p-price">₹2400</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Bertolli Olive oil">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Bertolli Olive oil.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Bertolli Olive oil</h3>
+                        <p class="p-price">₹2200</p>
+                        <p class="p-weight">1 L</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Quaker">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Quaker Oats.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Quaker Oats</h3>
+                        <p class="p-price">₹210</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Saffola oats">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Saffola oats.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Saffola oats</h3>
+                        <p class="p-price">₹190</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Saffolamasalaoats">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Saffolamasalaoats.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Saffola masala oats</h3>
+                        <p class="p-price">₹70</p>
+                        <p class="p-weight">150 gs</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="SaffolaTomatooats">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/SaffolaTomatooats.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Saffola Tomato oats</h3>
+                        <p class="p-price">₹220</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Quakermultigrainoats">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Quakermultigrainoats.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Quaker Multigrain oats</h3>
+                        <p class="p-price">₹170</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="24 Mantra aata">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/24 Mantra aata.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">24 mantra atta</h3>
+                        <p class="p-price">₹85</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Pillsburg Fresh atta">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Pillsburg Fresh atta.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Pillsburg Fresh atta</h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="FORTUNE ATTA">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/FORTUNE ATTA.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Fortune atta</h3>
+                        <p class="p-price">₹50</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Aashirvaad">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Aashirvaadatta.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Aashirvaad atta</h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Chakkiatta">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Chakkiatta.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Chakki atta</h3>
+                        <p class="p-price">₹110</p>
+                        <p class="p-weight">1 kg</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="rajdhani besan">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/rajdhani besan.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Rajdhani Besan </h3>
+                        <p class="p-price">₹70</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="24 Mantra Besan">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/24 Mantra Besan.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">24 Mantra Besan </h3>
+                        <p class="p-price">₹75</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Daily Good besan">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Daily Good besan.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Daily Good Besan</h3>
+                        <p class="p-price">₹80</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="TataSampannBesan">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/TataSampannBesan.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Tata Sampann Besan </h3>
+                        <p class="p-price">₹90</p>
+                        <p class="p-weight">500 gm</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- The Modal -->
+            <div id="cartModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Your Cart</h2>
+                    <div id="cart-items"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </div>
+    <div class="banner-box f-slide-3">
+
+        <div class="banner-text-container">
+            <div class="banner-text">
+                <div class="centered">
+
+                    <div> <span> LIMITED Offer </span></div>
+                    <div class="pk"><strong> GET 50% Off<br /> With Promo Code <font>FRESH 50</font> <br>Above ₹250
+                            Order</strong></div>
+                    <a href="#" class="banner-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <section class="services">
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-shipping-fast"></i>
+            <span>Free Shipping</span>
+            <p>Free Shipping for all US order</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-headphones-alt"></i>
+            <span>Support 24/7</span>
+            <p>We support 24h a day</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-sync"></i>
+            <span>Trusted And 100% Healthy</span>
+            <p>All Godds Are Directly Imported From Framer</p>
+        </div>
+
+    </section>
+    <!--footer---------------------------->
+    <footer>
+        <!--copyright-------------->
+        <span class="copyright">
+            Copyright 2024 FreshCart
+        </span>
+        <!--subcribe---------------->
+        <div class="subscribe">
+            <form>
+                <input type="email" placeholder="Example@gmail.com" required />
+                <input type="submit" value="Subscribe">
+            </form>
+        </div>
+
+
+    </footer>
+    <script src="../js/cart.js" defer></script>
+</body>
+
+
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Home Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/new.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="../js/profile.js" defer></script>
+    <script src="../js/data.js" defer></script>
+    <script src="../js/search.js" defer></script>
+    <script src="../js/loader.js" defer></script>
+    <script src="../js/filter.js" defer></script>
+
+   
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="Home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+            </ul>
+            <div class="search-container">
+                <form action="javascript:void(0);">
+                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        
+        <!-- Profile Circle -->
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
+            <!-- Filter Dropdown for Premium Members -->
+            <div id="filter-container" style="display: none;">
+                <label for="filter-select">Filter by Health Benefit:</label>
+                <select id="filter-select">
+                    <option value="">Select</option>
+                    <option value="diabetes">Diabetes</option>
+                    <option value="heart">Heart</option>
+                    <option value="blood">Blood Pressure</option>
+                    <option value="high-protein">High Protein</option>
+                    <option value="less-fat">Less Fat</option>
+                </select>
+            </div>
+    <section></section>
+
+    <div id="loader">
+        <img src="../images/loading.gif" alt="Loading..." />
+    </div>
+    
+    <ul id="autoWidth" class="container" class="cs-hidden">
+        <!--box-1--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="vegetable.html">
+                    <img src="../images/Mix.jpeg">
+                </a>
+            </div>
+            <span>Vegetable</span>
+        </li>
+        <!--box-2--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="fruit.html">
+                    <img src="../images/2.jpg">
+                </a>
+            </div>
+            <span>Fruits</span>
+        </li>
+        <!--box-3--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="grain.html">
+                    <img src="../images/3.jpg">
+                </a>
+            </div>
+            <span>Grains</span>
+        </li>
+        <!--box-4--------------------->
+        <li class="item">
+            <div class="feature-box">
+                <a href="daily.html">
+                    <img src="../images/4.jpg">
+                </a>
+            </div>
+            <span>Daily Accessories</span>
+        </li>
+
+    </ul>
+    <section class="new-arrival">
+
+        <!--heading-------->
+        <div class="arrival-heading">
+            <strong>Daily Accessories</strong>
+            <p>Directly Imported From Farm Without Any Harmfull Preservative </p>
+            <div class="product-container">
+
+                <div class="product-box" data-id="Sensodyne Toothbrush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+
+
+                        <img src="../images/Sensodyne Toothbrush.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Sensodyne Toothbrush </h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <!-- Repeat the above structure for each product -->
+                <!--product-box-2---------->
+
+
+                <div class="product-box" data-id="Oral B Toothbrush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Oral B Toothbrush.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Oral B Toothbrush</h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <!--product-box-3---------->
+                <div class="product-box" data-id="Colgate Toothbrush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Colgate Toothbrush.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Colgate Toothbrush</h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <!--product-box-4---------->
+                <div class="product-box" data-id="Dabur Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Dabur Toothpaste.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Dabur Toothpaste</h3>
+                        <p class="p-price">₹50</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <!--product-box-5---------->
+                <div class="product-box" data-id="Colgate Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Colgate Toothpaste.jpg " alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Colgate Toothpaste</h3>
+                        <p class="p-price">₹50</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <!--product-box-6---------->
+                <div class="product-box" data-id="Close Up Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Close Up Toothpaste.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Close Up Toothpaste</h3>
+                        <p class="p-price">₹60</p>
+                        <p class="p-weight">80 gm</p>
+                    </div>
+                </div>
+                <!--product-box-7---------->
+                <div class="product-box" data-id="Himalaya Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Himalaya Toothpaste.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Himalaya Toothpaste</h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <!--product-box-8---------->
+                <div class="product-box" data-id="Pepsodent Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Pepsodent Toothpaste.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Pepsodent Toothpaste</h3>
+                        <p class="p-price">₹80</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Sensodyne Toothpaste">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Sensodyne Toothpaste.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Sensodyne Toothpaste</h3>
+                        <p class="p-price">₹160</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Colgate Mouthwash">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Colgate Mouthwash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Colgate Mouthwash</h3>
+                        <p class="p-price">₹320</p>
+                        <p class="p-weight">500 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Sensodyne Mouthwash">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Sensodyne Mouthwash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Sensodyne Mouthwash</h3>
+                        <p class="p-price">₹120</p>
+                        <p class="p-weight">100 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Listerine Mint Mouthwash">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Listerine Mint Mouthwash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Listerine Mint Mouthwash</h3>
+                        <p class="p-price">₹180</p>
+                        <p class="p-weight">250 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Nivea Moisturizers">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Nivea Moisturizers.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Nivea Moisturizers</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">100 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Ponds Moisturizers">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Ponds Moisturizers.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Ponds Moisturizers</h3>
+                        <p class="p-price">₹470</p>
+                        <p class="p-weight">200 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Pilgrim Moisturizers">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Pilgrim Moisturizers.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Pilgrim Moisturizers</h3>
+                        <p class="p-price">₹490</p>
+                        <p class="p-weight">50 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Denver Deodorant">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Denver Deodorant.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Denver Deodorant</h3>
+                        <p class="p-price">₹320</p>
+                        <p class="p-weight">100 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Nivea Men Deodorant">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Nivea Men Deodorant.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Nivea Men Deodorant</h3>
+                        <p class="p-price">₹240</p>
+                        <p class="p-weight">150 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Wild Stone Deodorant">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Wild Stone Deodorant.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Wild Stone Deodorant</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">225 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Garnier Men Facewash">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Garnier Men Facewash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Garnier Men Facewash</h3>
+                        <p class="p-price">₹260</p>
+                        <p class="p-weight">100 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Ponds Facewash ">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Ponds Facewash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Ponds Facewash</h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">50 gm</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Simple Facewash">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Simple Facewash.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Simple Facewash</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">150 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Vega Round Hair Brush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Vega Round Hair Brush.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Vega Round Hair Brush</h3>
+                        <p class="p-price">₹150</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Vega Paddle Hair Brush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Vega Paddle Hair Brush.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Vega Paddle Hair Brush</h3>
+                        <p class="p-price">₹330</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Vega Wooden Hair Brush">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Vega Wooden Hair Brush.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Vega Wooden Hair Brush</h3>
+                        <p class="p-price">₹480</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Gillette Shaving Foam">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Gillette Shaving Foam.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Gillette Shaving Foam</h3>
+                        <p class="p-price">₹250</p>
+                        <p class="p-weight">>200 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Nivea Men Shaving Foam">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Nivea Men Shaving Foam.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Nivea Men Shaving Foam</h3>
+                        <p class="p-price">₹420</p>
+                        <p class="p-weight">150 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Old Spice Shaving Foam">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Old Spice Shaving Foam.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Old Spice Shaving Foam </h3>
+                        <p class="p-price">₹270</p>
+                        <p class="p-weight">150 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Dettol Sanitizer">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Dettol Sanitizer.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Dettol Sanitizer </h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">200 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Purell Sanitizer">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Purell Sanitizer.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Purell Sanitizer</h3>
+                        <p class="p-price">₹400</p>
+                        <p class="p-weight">100 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Lifebuoy Sanitizer">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Lifebuoy Sanitizer.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Lifebuoy Sanitizer</h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">675 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Schick Razor">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Schick Razor.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Schick Razor</h3>
+                        <p class="p-price">₹200</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="lets shave razor">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/lets shave razor.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Lets Shave Razor</h3>
+                        <p class="p-price">₹100</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Gillette Vector Razor">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Gillette Vector Razor.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Gillette Vector Razor</h3>
+                        <p class="p-price">₹90</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Johnson Baby Lotion">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Johnson Baby Lotion.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Johnson Baby Lotion</h3>
+                        <p class="p-price">₹210</p>
+                        <p class="p-weight">200 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Cetaphil Baby Lotion">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Cetaphil Baby Lotion.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Cetaphil Baby Lotion</h3>
+                        <p class="p-price">₹890</p>
+                        <p class="p-weight">100 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Himalaya Baby Lotion">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Himalaya Baby Lotion.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Himalaya Baby Lotion</h3>
+                        <p class="p-price">₹370</p>
+                        <p class="p-weight">400 ml</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Luvlap Diapers">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Luvlap Diapers.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Luvlap Diaper</h3>
+                        <p class="p-price">₹750</p>
+                        <p class="p-weight">72 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Pampers Pants">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Pampers Pants.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Pampers Pants</h3>
+                        <p class="p-price">₹1380</p>
+                        <p class="p-weight">44 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Huggies Pants">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Huggies Pants.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Huggies Pants</h3>
+                        <p class="p-price">₹1570</p>
+                        <p class="p-weight">112 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Nippo Battery">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Nippo Battery.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Nippo Battery</h3>
+                        <p class="p-price">₹70</p>
+                        <p class="p-weight">4 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Duracell Battery">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Duracell Battery.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Duracell Battery</h3>
+                        <p class="p-price">₹170</p>
+                        <p class="p-weight">4 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Eveready Battery">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Eveready Battery.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Eveready Battery</h3>
+                        <p class="p-price">₹70</p>
+                        <p class="p-weight">4 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Eveready Light Bulb">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Eveready Light Bulb.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Eveready Light Bulb</h3>
+                        <p class="p-price">₹210</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Philips Light Bulb">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Philips Light Bulb.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Philips Light Bulb</h3>
+                        <p class="p-price">₹70</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+                <div class="product-box" data-id="Goldmedal Light Bulb">
+                    <div class="product-img">
+                        <div class="discount-label">25% OFF</div>
+                        <img src="../images/Goldmedal Light Bulb.jpg" alt="Product Image">
+                        <button class="add-cart">
+                            <font size=5>+</font>
+                        </button>
+                    </div>
+                    <div class="product-details">
+                        <h3 class="p-name">Goldmedal Light Bulb </h3>
+                        <p class="p-price">₹110</p>
+                        <p class="p-weight">1 pc</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- The Modal -->
+            <div id="cartModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Your Cart</h2>
+                    <div id="cart-items"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    </div>
+    <div class="banner-box f-slide-3">
+
+        <div class="banner-text-container">
+            <div class="banner-text">
+                <div class="centered">
+
+                    <div> <span> LIMITED Offer </span></div>
+                    <div class="pk"><strong> GET 50% Off<br /> With Promo Code <font>FRESH 50</font> <br>Above ₹250
+                            Order</strong></div>
+                    <a href="#" class="banner-btn">Shop Now</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <section class="services">
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-shipping-fast"></i>
+            <span>Free Shipping</span>
+            <p>Free Shipping for all US order</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-headphones-alt"></i>
+            <span>Support 24/7</span>
+            <p>We support 24h a day</p>
+        </div>
+        <!--services-box---------->
+        <div class="services-box">
+            <i class="fas fa-sync"></i>
+            <span>Trusted And 100% Healthy</span>
+            <p>All Godds Are Directly Imported From Framer</p>
+        </div>
+
+    </section>
+    <!--footer---------------------------->
+    <footer>
+        <!--copyright-------------->
+        <span class="copyright">
+            Copyright 2024 FreshCart
+        </span>
+        <!--subcribe---------------->
+        <div class="subscribe">
+            <form>
+                <input type="email" placeholder="Example@gmail.com" required />
+                <input type="submit" value="Subscribe">
+            </form>
+        </div>
+
+
+    </footer>
+    <script src="../js/cart.js" defer></script>
+</body>
+
+
+</html>
