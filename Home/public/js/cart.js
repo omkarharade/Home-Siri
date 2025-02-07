@@ -125,7 +125,6 @@ async function getCartItemsAPI() {
 
   async function loadCartAPI() {
 
-    
     const cartItems = await getCartItemsAPI();
 
     console.log("inside loadCartAPI , ", cartItems )
@@ -299,27 +298,49 @@ async function getCartItemsAPI() {
         alert(`${itemToAdd.name} is already in My List.`);
     }
   }
+
+  async function updateCartItem(cartItemId, quantity){
+
+    console.log("cartItemId", cartItemId);
+    console.log("quantity", quantity);
+
+    const response = await fetch("http://localhost:5000/api/cart/update", {
+        method:"PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            cart_item_id: cartItemId,
+            quantity: quantity
+        }),
+    });
+
+    console.log("response from update api == ", response);
+    const data = await response.json();
+    console.log("response.data from update api == ", data);
+
+  }
   
   // Increase quantity
-  function increaseQuantity(event) {
+  async function increaseQuantity(event) {
     const index = event.target.dataset.index;
-    const cartItems = getCartItemsAPI();
+    const cartItems = await getCartItemsAPI();
     cartItems[index].quantity += 1;
     saveCartItems(cartItems);
-
-    // loadCart();
-    loadCartAPI();
+    await updateCartItem(cartItems[index].id, cartItems[index].quantity);
+    await loadCartAPI();
   }
   
   // Decrease quantity
-  function decreaseQuantity(event) {
+  async function decreaseQuantity(event) {
     const index = event.target.dataset.index;
-    const cartItems = getCartItemsAPI();
+    
+    const cartItems = await getCartItemsAPI();
+
     if (cartItems[index].quantity > 1) {
         cartItems[index].quantity -= 1;
         saveCartItems(cartItems);
-        // loadCart();
-        loadCartAPI();
+        await updateCartItem(cartItems[index].id, cartItems[index].quantity);
+        await loadCartAPI();
+
     } else {
         document.getElementById(`confirm-remove-${index}`).style.display = "block";
     }
