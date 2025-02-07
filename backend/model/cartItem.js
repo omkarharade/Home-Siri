@@ -17,7 +17,7 @@ const CartItem = sequelize.define("CartItem", {
     },
   },
   product_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   quantity: {
@@ -28,6 +28,14 @@ const CartItem = sequelize.define("CartItem", {
   price: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
+  },
+  weight:{
+    type:DataTypes.STRING,
+    allowNull: true,
+  },
+  image:{
+    type:DataTypes.STRING,
+    allowNull:true
   }
 }, {
   timestamps: true,

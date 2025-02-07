@@ -2,14 +2,18 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import Razorpay from "razorpay";
-import router from "./routes/userRoutes.js";
+import authRouter from "./routes/userRoutes.js";
+import cartRouter from "./routes/cartRoutes.js";
+import router from "./routes/userRoutes.js"
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/api/auth", router);  // Auth routes (signup/login)
+app.use("/api/auth", authRouter);  // Auth routes (signup/login)
 app.use("/api/orders", router); // Order routes (create/get)
+app.use("/api/cart", cartRouter);
+
 
 // Payment Order Creation
 app.post("/create-order", async (req, res) => {
