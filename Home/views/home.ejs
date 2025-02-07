@@ -17,11 +17,9 @@
 </head>
 
 <body>
-
     <!-- navbar -->
     <%- include('partials/home-navbar') %>
 
-    
     <div id="filter-container">
         <label for="filter-select">Filter by Health Benefit:</label>
         <select id="filter-select">
@@ -218,9 +216,19 @@
         </div>
     </section>
 
+    <!-- hidden variables section  --------------------------------------------------->
+
+
+
+    <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
+
+
+
+    <!-- -------------------------------------------------------------------------- -->
+
     <footer>
         <span class="copyright">
-            Copyright 2024 FreshCart <%=userId%>
+            Copyright 2024 FreshCart  <%=userId%>
         </span>
         <div class="subscribe">
             <form>
@@ -230,7 +238,7 @@
         </div>
     </footer>
 
-    <script src="../public/js/cart.js" defer></script>
+    <script src="../js/cart.js" defer></script>
 
     
 </body>

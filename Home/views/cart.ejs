@@ -224,7 +224,33 @@
 </head>
 
 <body>
-    <%- include('partials/home-navbar') %>
+    <nav>
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label>
+        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
+        <ul>
+            <li><a class="active" href="Home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li><a href="mylist.html">My List</a></li>
+            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
+            <li>
+                <a id="cart-link" href="cart.html">
+                    Cart
+                </a>
+            </li>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">About Us</a></li>
+            <div class="right-section">
+        </ul>
+        <div class="search-container">
+            <form action="javascript:void(0);">
+                <input type="text" id="search-bar" placeholder="Search for items..." name="q">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="profile-circle" id="profileCircle">J</div>
+    </nav>
     <div id="loader">
         <img src="../images/loading.gif" alt="Loading..." />
     </div>
@@ -263,6 +289,19 @@
         <button id="clear-cart">Clear Cart</button>
         <button id="checkout">Proceed to Checkout</button>
     </div>
+
+
+       <!-- hidden variables section  --------------------------------------------------->
+
+
+
+       <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
+
+
+
+       <!-- -------------------------------------------------------------------------- -->
+
+       
     <footer>
         <span class="copyright">Copyright 2024 FreshCart</span>
     </footer>
