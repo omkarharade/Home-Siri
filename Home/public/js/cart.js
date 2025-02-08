@@ -369,7 +369,105 @@ async function getCartItemsAPI() {
     loadCartAPI();
     alert("Cart cleared!");
   });
-  
+
+
+//   document.getElementById("checkout").addEventListener("click", async function () {
+//     const address = document.getElementById("address").value.trim();
+//     const phone = document.getElementById("phone").value.trim();
+//     const email = document.getElementById("email").value.trim();
+//     const cartItems = await getCartItemsAPI();
+    
+//     // Validation
+//     if (!address) {
+//         document.getElementById("address-error").innerText = "Please enter your address.";
+//         return;
+//     }
+//     if (!phone.match(/^\d{10}$/)) {
+//         document.getElementById("phone-error").innerText = "Enter a valid 10-digit phone number.";
+//         return;
+//     }
+//     if (!email.match(/^\S+@\S+\.\S+$/)) {
+//         document.getElementById("email-error").innerText = "Enter a valid email.";
+//         return;
+//     }
+
+//     // ऑर्डर डेटा तैयार करें
+//     const orderData = {
+//         address,
+//         phone,
+//         email,
+//         items: cartItems|| [],
+//         totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
+//     };
+
+//     try {
+//         const response = await fetch("http://localhost:5000/api/orders/order", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify(orderData),
+//         });
+//         console.log(response);
+
+//         const result = await response.json();
+
+//         console.log("response from orders api = ", response);
+
+//         if (response.ok) {
+//             alert("Order Placed Successfully!");
+//             localStorage.removeItem("cart"); // कार्ट क्लियर करें
+//             document.getElementById("cart-items").innerHTML = "";
+//             document.getElementById("cart-total").innerText = "Total: ₹0.00";
+//         } else {
+//             alert("Something went wrong: " + result.message);
+//         }
+//     } catch (error) {
+//         alert("Error placing order. Please try again later.");
+//         console.error("Order Error:", error);
+//     }
+// });
+
+  async function saveOrderDetails(address, phoneNumber, email, totalAmount){
+    try {
+
+        // ऑर्डर डेटा तैयार करें
+
+        console.log("surprise surprise");
+        const userId = await JSON.parse(document.getElementById('user-id').getAttribute('data-userId'));
+        const orderData = {
+            user_id: userId,
+            address: address,
+            phone: phoneNumber,
+            email: email,
+            total: totalAmount
+            // totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
+        };
+
+        console.log("order data print ", orderData)
+                const response = await fetch("http://localhost:5000/api/orders/order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(orderData),
+                });
+                console.log(response);
+        
+                const result = await response.json();
+        
+                console.log("response from orders api = ", response);
+        
+                if (response.ok) {
+                    alert("Order Placed Successfully!");
+                } else {
+                    alert("Something went wrong: " + result.message);
+                }
+            } catch (error) {
+                alert("Error placing order. Please try again later.");
+                console.error("Order Error:", error);
+            }
+  }
  
   function validateCheckoutDetails() {
       const address = document.getElementById("address").value.trim();
@@ -395,7 +493,7 @@ async function getCartItemsAPI() {
   
   // Proceed to Checkout
   document.getElementById("checkout").addEventListener("click", async () => {
-      const cartItems = getCartItems();
+      const cartItems = await getCartItemsAPI();
       if (cartItems.length === 0) {
           alert("Your cart is empty!");
           return;
@@ -405,9 +503,12 @@ async function getCartItemsAPI() {
       if (!validateCheckoutDetails()) {
           return;
       }
-  
+
+      const address = document.getElementById("address").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
       const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-  
+
       try {
           const response = await fetch("http://localhost:5000/create-order", {
               method: "POST",
@@ -419,6 +520,8 @@ async function getCartItemsAPI() {
           });
   
           const order = await response.json();
+
+          console.log("order created using create-order verify pending ===  ", order);
   
           const options = {
               key: "rzp_test_ZEsh3BtedaNCaU", // Replace with your Razorpay key ID
@@ -441,11 +544,15 @@ async function getCartItemsAPI() {
                       });
   
                       const verifyResult = await verifyResponse.json();
+
+                      console.log("verify result output === ", verifyResult);
+
                       if (verifyResult.error) {
                           alert("Payment verification failed!");
                       } else {
                           alert("Your payment is completed!");
-                          moveToOrders(cartItems); // Move items to order.html
+                          await saveOrderDetails(address, phone, email, totalAmount); // save data to database;
+                          moveToOrders(cartItems); // Move items to orders page
                       }
                   } catch (err) {
                       console.error("Payment verification error:", err);
@@ -453,20 +560,25 @@ async function getCartItemsAPI() {
                   }
               },
           };
+
+           // Ensure Razorpay SDK is loaded before creating an instance
+          if (!window.Razorpay) {
+            alert("Razorpay SDK failed to load. Check your internet connection.");
+            return;
+          }
   
-          const rzp = new Razorpay(options);
+          const rzp = new window.Razorpay(options);
           rzp.open();
+
       } catch (err) {
           console.error("Error during checkout:", err);
           alert("Failed to proceed with checkout.");
       }
   });
   
-  // Move cart items to order.html
+  // Move cart items to orders page
   function moveToOrders(cartItems) {
-      localStorage.setItem("orderItems", JSON.stringify(cartItems)); // Save order items to localStorage
-      localStorage.removeItem("cartItems"); // Clear the cart
-      window.location.href = "order.html"; // Redirect to order page
+      window.location.href = "/order"
   }
   
   // Load cart on page load

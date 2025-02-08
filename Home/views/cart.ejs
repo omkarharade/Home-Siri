@@ -305,63 +305,6 @@
     <footer>
         <span class="copyright">Copyright 2024 FreshCart</span>
     </footer>
-    <script>
-
-document.getElementById("checkout").addEventListener("click", async function () {
-    const address = document.getElementById("address").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const email = document.getElementById("email").value.trim();
-    
-    // Validation
-    if (!address) {
-        document.getElementById("address-error").innerText = "Please enter your address.";
-        return;
-    }
-    if (!phone.match(/^\d{10}$/)) {
-        document.getElementById("phone-error").innerText = "Enter a valid 10-digit phone number.";
-        return;
-    }
-    if (!email.match(/^\S+@\S+\.\S+$/)) {
-        document.getElementById("email-error").innerText = "Enter a valid email.";
-        return;
-    }
-
-    // ऑर्डर डेटा तैयार करें
-    const orderData = {
-        address,
-        phone,
-        email,
-        items: JSON.parse(localStorage.getItem("cart")) || [],
-        totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
-    };
-
-    try {
-        const response = await fetch("http://localhost:5000/api/orders/order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(orderData),
-        });
-        console.log(response);
-
-        const result = await response.json();
-
-        if (response.ok) {
-            alert("Order Placed Successfully!");
-            localStorage.removeItem("cart"); // कार्ट क्लियर करें
-            document.getElementById("cart-items").innerHTML = "";
-            document.getElementById("cart-total").innerText = "Total: ₹0.00";
-        } else {
-            alert("Something went wrong: " + result.message);
-        }
-    } catch (error) {
-        alert("Error placing order. Please try again later.");
-        console.error("Order Error:", error);
-    }
-});
-
-    </script>
 </body>
 
 </html>

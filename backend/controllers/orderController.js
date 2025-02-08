@@ -41,7 +41,7 @@ export const verifyPayment = async (req, res) => {
     }
 
     const generatedSignature = crypto
-      .createHmac("sha256", "your_razorpay_secret_key")
+      .createHmac("sha256", "PIApMOZcNKbj8eElMilQqzxx")
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest("hex");
 
@@ -71,6 +71,7 @@ export const createOrder = async (req, res) => {
       address,
       phone,
       email,
+      status: "completed"
     });
 
     res.status(201).json({ message: "Order created successfully", newOrder });

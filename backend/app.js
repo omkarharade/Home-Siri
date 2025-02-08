@@ -5,6 +5,7 @@ import Razorpay from "razorpay";
 import authRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import router from "./routes/userRoutes.js"
+import crypto from "crypto";
 
 const app = express();
 
@@ -14,6 +15,11 @@ app.use("/api/auth", authRouter);  // Auth routes (signup/login)
 app.use("/api/orders", router); // Order routes (create/get)
 app.use("/api/cart", cartRouter);
 
+
+const razorpay = new Razorpay({
+  key_id: "rzp_test_ZEsh3BtedaNCaU", // Replace with your actual Razorpay key
+  key_secret: "PIApMOZcNKbj8eElMilQqzxx", // Replace with your Razorpay secret
+});
 
 // Payment Order Creation
 app.post("/create-order", async (req, res) => {
