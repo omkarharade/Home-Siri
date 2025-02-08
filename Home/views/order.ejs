@@ -258,49 +258,5 @@
 
     <script src="../js/cart.js" defer></script>
     <script src="../js/filter.js" defer></script>
-
-    <script>
-     document.addEventListener("DOMContentLoaded", async function () {
-  const orderContainer = document.getElementById("order-items");
-  const loader = document.getElementById("loader");
-
-  async function fetchOrders() {
-    try {
-      loader.style.display = "block"; // Loader दिखाएँ
-
-      const response = await fetch("http://localhost:5000/api/orders/orders");
-      const data = await response.json();
-
-      if (data.length === 0) {
-        orderContainer.innerHTML = "<p>No orders found.</p>";
-      } else {
-        data.forEach((order) => {
-          const orderCard = document.createElement("div");
-          orderCard.className = "order-card";
-          orderCard.innerHTML = `
-            <img src="${order.imageURL}" alt="${order.name}">
-            <h4>Order Address: ${order.address}</h4>
-            <p><strong>Email:</strong> ${order.email}</p>
-            <p><strong>Phone:</strong> ${order.phone}</p>
-            <p><strong>Status:</strong> ${order.status}</p>
-            <p><strong>Total:</strong> ₹${order.total}</p>
-            <p><strong>Created At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-            <p><strong>User ID:</strong> ${order.user_id}</p>
-            <button class="styled-button" onclick="viewOrderDetails(${order.id})">View Order</button>
-          `;
-          orderContainer.appendChild(orderCard);
-        });
-      }
-    } catch (error) {
-      orderContainer.innerHTML = "<p>Error loading orders.</p>";
-    } finally {
-      loader.style.display = "none"; // Loader छुपाएँ
-    }
-  }
-
-  fetchOrders();
-});
-
-    </script>
   </body>
 </html>

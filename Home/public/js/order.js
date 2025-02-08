@@ -1,5 +1,51 @@
 // Function to load the order items from localStorage and display them in card format
+async function fetchOrders() {
+    try {
+        const loader = document.getElementById("loader");
+      loader.style.display = "block"; // Loader दिखाएँ
+
+      const response = await fetch("http://localhost:5000/api/orders/orders", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    });
+
+      const data = await response.json();
+      const orders = data.orders;
+
+      console.log("data from orders page loading == ", data);
+
+      if (data.length === 0) {
+        orderContainer.innerHTML = "<p>No orders found.</p>";
+      } else {
+        orders.forEach((order) => {
+          const orderCard = document.createElement("div");
+          orderCard.className = "order-card";
+          orderCard.innerHTML = `
+            <img src="${order.imageURL}" alt="${order.name}">
+            <h4>Order Address: ${order.address}</h4>
+            <p><strong>Email:</strong> ${order.email}</p>
+            <p><strong>Phone:</strong> ${order.phone}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <p><strong>Total:</strong> ₹${order.total}</p>
+            <p><strong>Created At:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+            <p><strong>User ID:</strong> ${order.user_id}</p>
+            <button class="styled-button" onclick="viewOrderDetails(${order.id})">View Order</button>
+          `;
+          orderContainer.appendChild(orderCard);
+        });
+      }
+    } catch (error) {
+      orderContainer.innerHTML = "<p>Error loading orders.</p>";
+    } finally {
+      loader.style.display = "none"; // Loader छुपाएँ
+    }
+  }
+
+
 function loadOrders() {
+
+    fetchOrders();  // embed orders card to frontend
+    
     const orderItems = JSON.parse(localStorage.getItem("orderItems")) || [];
     const orderItemsContainer = document.getElementById("order-items");
     const progressBar = document.getElementById("progress-bar");
