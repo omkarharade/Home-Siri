@@ -136,6 +136,79 @@ app.get("/list", function (req, res){
   res.render("my-list");
 })
 
+app.get("/home/vegetables", function (req, res){
+
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("vegetable", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+})
+
+app.get("/home/fruits", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("fruit", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+})
+
+app.get("/home/grains", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("grain", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+})
+
+app.get("/home/daily", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("daily", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+})
+
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("server started on port 3000");

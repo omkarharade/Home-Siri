@@ -19,61 +19,12 @@
 <body>
     <!-- navbar -->
     <%- include('partials/home-navbar') %>
-
-    <div id="filter-container">
-        <label for="filter-select">Filter by Health Benefit:</label>
-        <select id="filter-select">
-            <option value="">Select</option>
-            <option value="diabetes.html">Diabetes</option>
-            <option value="heart.html">Heart</option>
-            <option value="blood.html">Blood Pressure</option>
-            <option value="high-protein.html">High Protein</option>
-            <option value="less-fat.html">Less Fat</option>
-        </select>
-    </div>
         
     <div id="loader">
         <img src="../images/loading.gif" alt="Loading..." />
     </div>
     
-    <ul id="autoWidth" class="container cs-hidden">
-        <!--box-1---------------------->
-        <li class="item">
-            <div class="feature-box">
-                <a href="vegetable.html">
-                    <img src="../images/Mix.jpeg" alt="Mix of various vegetables">
-                </a>
-            </div>
-            <span>Vegetable</span></a>
-        </li>
-        <!--box-2---------------------->
-        <li class="item">
-            <div class="feature-box">
-                <a href="fruit.html">
-                    <img src="../images/2.jpg" alt="Fresh fruits assortment">
-                </a>
-            </div>
-            <span>Fruit</span></a>
-        </li>
-        <!--box-3---------------------->
-        <li class="item">
-            <div class="feature-box">
-                <a href="grain.html">
-                    <img src="../images/3.jpg" alt="Grains and cereals">
-                </a>
-            </div>
-            <span>Grains</span></a>
-        </li>
-        <!--box-4---------------------->
-        <li class="item">
-            <div class="feature-box">
-                <a href="daily.html">
-                    <img src="../images/4.jpg" alt="Daily accessories">
-                </a>
-            </div>
-            <span>Daily Accessories</span>
-        </li>
-    </ul>
+    <%- include('partials/home-category') %>
 
     <section class="new-arrival">
         <!--heading-------->

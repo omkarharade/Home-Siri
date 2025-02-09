@@ -2,6 +2,8 @@
 async function fetchOrders() {
     try {
         const loader = document.getElementById("loader");
+        const orderContainer = document.getElementById("order-items");
+
       loader.style.display = "block"; // Loader दिखाएँ
 
       const response = await fetch("http://localhost:5000/api/orders/orders", {
