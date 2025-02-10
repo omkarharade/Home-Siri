@@ -405,12 +405,23 @@ function cancelRemove(event) {
 	event.target.parentElement.style.display = "none";
 }
 
+// clear cart function
+
+async function clearCart(){
+
+    const cartId = await getCartId();
+    await clearCartAPI(cartId);
+    
+
+    await loadCartAPI();
+}
 // Clear the cart
 document.getElementById("clear-cart").addEventListener("click", () => {
 	localStorage.removeItem("cartItems");
-	load;
-	// loadCart();
-	loadCartAPI();
+
+    // clear cart API call 
+    clearCart();
+    document.getElementById("cart-total").innerText = "Total: ₹0.00"
 	alert("Cart cleared!");
 });
 
@@ -441,6 +452,7 @@ document.getElementById("clear-cart").addEventListener("click", () => {
 //         email,
 //         items: cartItems|| [],
 //         totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
+//         Total: ₹0.00
 //     };
 
 //     try {

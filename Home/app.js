@@ -129,7 +129,22 @@ app.get("/cart", function (req, res){
 })
 
 app.get("/order", function (req, res){
-  res.render("order");
+
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("order", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
 })
 
 app.get("/list", function (req, res){

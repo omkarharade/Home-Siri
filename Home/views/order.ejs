@@ -169,6 +169,16 @@
     <!-- Navbar -->
      <%- include('partials/home-navbar') %>
 
+     <!-- hidden variables section  --------------------------------------------------->
+
+
+
+    <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
+
+
+
+    <!-- -------------------------------------------------------------------------- -->
+
     <div id="loader">
       <img src="../images/loading.gif" alt="Loading..." />
     </div>
@@ -208,6 +218,7 @@
       </button>
     </div>
 
+    
     <script src="../js/order.js" defer></script>
 
     <div class="banner-box f-slide-3">

@@ -1,16 +1,30 @@
 // Function to load the order items from localStorage and display them in card format
 async function fetchOrders() {
+	const orderContainer = document.getElementById("order-items");
 	try {
 		const loader = document.getElementById("loader");
-		const orderContainer = document.getElementById("order-items");
+		
 		const progressBar = document.getElementById("progress-bar");
 		const progressText = document.getElementById("progress-text");
 		const statusMessage = document.getElementById("status-message");
 		const cancelContainer = document.getElementById("cancel-container");
 		const cancelButton = document.getElementById("cancel-button");
 		loader.style.display = "block"; // Loader दिखाएँ
+		const imageURL = "/images/order-complete.jpg"
 
-		const response = await fetch("http://localhost:5000/api/orders/orders", {
+		const userId = await JSON.parse(
+			document.getElementById("user-id").getAttribute("data-userId")
+		);
+		const params = new URLSearchParams({
+			user_id: userId,
+		});
+		const url = `http://localhost:5000/api/orders/orders?${params}`;
+	
+		console.log("calling from the fetch orders function");
+		console.log("userid == ", userId);
+	
+
+		const response = await fetch(url, {
 			method: "GET",
 			headers: { "Content-Type": "application/json" },
 		});
@@ -23,11 +37,11 @@ async function fetchOrders() {
 		if (data.length === 0) {
 			orderContainer.innerHTML = "<p>No orders found.</p>";
 		} else {
-			orders.forEach((order) => {
+			orders.map((order) => {
 				const orderCard = document.createElement("div");
 				orderCard.className = "order-card";
 				orderCard.innerHTML = `
-            <img src="${order.imageURL}" alt="${order.name}">
+            <img src="${imageURL}" alt="${order.name}">
             <h4>Order Address: ${order.address}</h4>
             <p><strong>Email:</strong> ${order.email}</p>
             <p><strong>Phone:</strong> ${order.phone}</p>
@@ -54,6 +68,7 @@ async function fetchOrders() {
 function loadOrders() {
 	fetchOrders(); // embed orders card to frontend
 
+	const orderItems = JSON.parse(localStorage.getItem("orderItems")) || [];
 	const orderItemsContainer = document.getElementById("order-items");
 	const progressBar = document.getElementById("progress-bar");
 	const progressText = document.getElementById("progress-text");
