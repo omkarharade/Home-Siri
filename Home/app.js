@@ -90,6 +90,21 @@ app.post("/login", async function (req, res){
 })
 
 
+app.get("/profile", function (req, res) {
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("profile", {userId: decoded.id, userName: decoded.name, userEmail: decoded.email});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
 
 app.get("/home", function (req, res){
 

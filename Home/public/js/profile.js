@@ -10,6 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Navigate to profile page when clicked
     profileCircle.addEventListener("click", () => {
-        window.location.href = "profile.html";
+        window.location.href = "/profile";
     });
 });

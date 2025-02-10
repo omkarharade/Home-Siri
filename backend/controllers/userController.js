@@ -6,7 +6,7 @@ const JWT_SECRET_KEY = "your_jwt_secret";
 
 export const signup = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const {name, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -15,7 +15,7 @@ export const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashedPassword });
+    const user = await User.create({name: name, email, password: hashedPassword });
     res.status(201).json({ message: "User signed up successfully", user });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong", error: err });
@@ -34,7 +34,7 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    const token = jwt.sign({ id: user.id }, JWT_SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, JWT_SECRET_KEY, { expiresIn: "1h" });
     res.json({ message: "Login successful", token });
   } catch (err) {
     res.status(500).json({ message: "Something went wrong", error: err });
