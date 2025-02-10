@@ -87,7 +87,7 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
         height: 100%;
-        min-width: 240px;
+        width: 350px;
         text-align: center;
       }
 
@@ -167,7 +167,7 @@
 
   <body>
     <!-- Navbar -->
-     
+     <%- include('partials/home-navbar') %>
 
     <div id="loader">
       <img src="../images/loading.gif" alt="Loading..." />
@@ -185,9 +185,9 @@
     </div>
 
     <!-- Cancel Order Button -->
-    <div id="cancel-container" style="text-align: center; margin: 20px 0">
+    <!-- <div id="cancel-container" style="text-align: center; margin: 20px 0">
       <button id="cancel-button" class="styled-button">Cancel Order</button>
-    </div>
+    </div> -->
 
     <div style="margin-top: 20px; text-align: center">
       <span
@@ -208,7 +208,7 @@
       </button>
     </div>
 
-    <script src="../js/order.js"></script>
+    <script src="../js/order.js" defer></script>
 
     <div class="banner-box f-slide-3">
       <div class="banner-text-container">
