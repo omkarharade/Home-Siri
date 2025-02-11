@@ -17,7 +17,7 @@
             <h1 class="title">Sign In</h1>
             <div class="underline"></div>
 
-            <form action="/login", method="post">
+            <form id="login-form" action="/login", method="post">
 
                 <div class="input-group">
                     <div class="input-field">
@@ -28,6 +28,7 @@
                         <i class="fa-solid fa-lock"></i>
                         <input type="password" name="password" placeholder="Password" id="login-password" required>
                     </div>
+                    <p style="background-color: red; color: white;"> <%=error%></p>
                 </div>
                 <div class="btn-field">
                     <button type=" submit" class="signinbtn" id="login-btn">Sign In</button>

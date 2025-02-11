@@ -29,7 +29,7 @@ app.get("/signup", function (req, res) {
 });
 
 app.get("/login", function (req, res) {
-  res.render("login-page");
+  res.render("login-page", {error: null});
 });
 
 app.post("/login", async function (req, res){
@@ -55,12 +55,14 @@ app.post("/login", async function (req, res){
       console.log("login successful")
       res.redirect("/home");
     } else {
+      res.render("login-page", {error: data.message})
       console.log("login failed, try again");
     }
   } catch (error) {
-    console.error("Error:", error)
-     console.log("Server error. Try again later.")
+    console.error("Error: ", error.message)
+    res.render("login-page", {error:"email id or password invalid"})
   }
+
 
   // Check if user is already logged in
   // if (token) {

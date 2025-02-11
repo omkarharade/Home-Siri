@@ -74,30 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        })
-        .then(response => {
-            console.log('Login response:', response);
-            if (!response.ok) throw new Error('Login failed.');
-            return response.text();
-        })
-        .then(data => {
-            console.log('Login data:', data);
-            if (data === "Login successful") {
-                window.location.href = 'Home.html';  // Redirect to Home.html
-            } else {
-                alert(data);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Login failed. Please try again.');
-        });
+        document.getElementById("login-form").requestSubmit();
     });
 
     adminLoginBtn.addEventListener('click', () => {
