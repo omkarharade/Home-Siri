@@ -1,5 +1,5 @@
 import express from "express";
-import { signup, login } from "../controllers/userController.js";
+import { signup, login, upgradeToPremium, checkPremium, getExpiryTime } from "../controllers/userController.js";
 import { createOrder, getOrders } from "../controllers/orderController.js";
 import { 
   getCart, 
@@ -14,6 +14,9 @@ const router = express.Router();
 // Auth routes
 router.post("/signup", signup);
 router.post("/login", login);
+router.put("/premium", upgradeToPremium);
+router.get("/premium", checkPremium);
+router.get("/expiry", getExpiryTime);
 
 // Order routes
 router.post("/order", createOrder);

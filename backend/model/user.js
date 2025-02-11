@@ -23,6 +23,14 @@ const User = sequelize.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  have_premium: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  premium_expires_at: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,

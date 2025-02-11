@@ -6,7 +6,9 @@ import authRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import router from "./routes/userRoutes.js"
 import crypto from "crypto";
-
+import cron from "node-cron";
+import User from "../backend/model/user.js";
+import { Op } from 'sequelize';
 const app = express();
 
 app.use(bodyParser.json());
@@ -16,9 +18,20 @@ app.use("/api/orders", router); // Order routes (create/get)
 app.use("/api/cart", cartRouter);
 
 
+
 const razorpay = new Razorpay({
   key_id: "rzp_test_ZEsh3BtedaNCaU", // Replace with your actual Razorpay key
   key_secret: "PIApMOZcNKbj8eElMilQqzxx", // Replace with your Razorpay secret
+});
+
+
+cron.schedule('* * * * *', async () => { // Runs every minute
+  const now = new Date();
+  await User.update(
+    { have_premium: false },
+    { where: { premium_expires_at: { [Op.lt]: now } } }
+  );
+  console.log('Checked and downgraded expired premium users.');
 });
 
 // Payment Order Creation
