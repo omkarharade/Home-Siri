@@ -50,7 +50,7 @@ async function fetchOrders() {
             <p><strong>Created At:</strong> ${new Date(
 							order.createdAt
 						).toLocaleString()}</p>
-            <p><strong>User ID:</strong> ${order.user_id}</p>
+            <p><strong>Applied Coupon:</strong> ${order.coupon_applied ? "YES" : "NO"}</p>
             <button class="styled-button" onclick="viewOrderDetails(${
 							order.id
 						})">View Order</button>

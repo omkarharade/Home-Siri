@@ -21,6 +21,7 @@ const Order = sequelize.define(
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
+    
     status: {
       type: DataTypes.STRING,
       defaultValue: "pending", // Pending, completed, canceled, etc.
@@ -28,6 +29,10 @@ const Order = sequelize.define(
     address: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    coupon_applied: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     phone: {
       type: DataTypes.STRING,

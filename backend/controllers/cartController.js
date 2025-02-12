@@ -118,6 +118,45 @@ export const updateCartItem = async (req, res) => {
   }
 };
 
+// add coupon to cart
+
+// export const addCouponToCart = async (req, res) => {
+//   try {
+//     const { user_id, coupon_name, coupon_discount } = req.body;
+
+//     if (!user_id || !coupon_name || !coupon_discount) {
+//       return res.status(400).json({ message: "Missing required fields" });
+//     }
+
+//     // Update cart total
+//     const cart = await Cart.findOne({
+//       where: {
+//         user_id: user_id
+//       }
+//     });
+
+//     const cartTotal = cart.total = await CartItem.sum('price', {
+//       where: { cart_id: cart.id }
+//     });
+
+//     cart.applied_coupon_name = coupon_name;
+//     cart.coupon_discount = coupon_discount;
+//     cart.total = cartTotal;
+
+//     await cart.save();
+
+//     res.status(200).json({ 
+//       message: "Cart total updated successfully",
+//       cart
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: "Error updating cart item", error: err });
+//     console.error(err);
+//   }
+// };
+
+
+
 // Remove item from cart
 export const removeFromCart = async (req, res) => {
   try {
@@ -170,3 +209,4 @@ export const clearCart = async (req, res) => {
     console.error(err);
   }
 };
+

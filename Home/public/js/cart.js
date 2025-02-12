@@ -53,6 +53,28 @@ async function getCartItemsAPI() {
 	return data.cart.CartItems;
 }
 
+async function getCartAPI(){
+	const userId = await JSON.parse(
+		document.getElementById("user-id").getAttribute("data-userId")
+	);
+	const params = new URLSearchParams({
+		user_id: userId,
+	});
+	const url = `http://localhost:5000/api/cart?${params}`;
+	console.log("userid == ", userId);
+
+	const response = await fetch(url, {
+		method: "GET",
+		headers: { "Content-Type": "application/json" },
+	});
+	const data = await response.json();
+
+	console.log("response of getChart from API = ", response);
+	console.log("response.json() of getChart from API = ", data);
+	console.log("chart details", data.cart);
+
+	return data.cart;
+}
 // Save the cart items to localStorage
 function saveCartItems(cartItems) {
 	localStorage.setItem("cartItems", JSON.stringify(cartItems));
@@ -144,15 +166,63 @@ document.getElementById("cart-link").addEventListener("click", () => {
 	window.location.href = "/cart";
 });
 
+document.getElementById("apply-coupon").addEventListener("click", async () => {
+
+	const cartTotal = document.getElementById("cart-total");
+	const cartTotalOriginal = document.getElementById("cart-total-original");
+	const cartTotalDiscounted = document.getElementById("cart-total-discounted");
+
+	const cartItems = await getCartItemsAPI();
+	let total = 0;
+
+	cartItems.forEach((item) => {
+		total += item.price * item.quantity;
+	});
+
+	if (total >= 250) {
+		const couponCode = document.getElementById("coupon-code").value;
+		if (couponCode === "FRESH50") {
+			alert("Coupon applied successfully! 50% off your total.");
+			const couponDiscount = total * 0.5;
+
+			localStorage.setItem("couponName", couponCode);
+			localStorage.setItem("couponDiscount", couponDiscount);
+
+			cartTotalOriginal.innerText = `Original Total: ₹${total.toFixed(2)}`;
+			cartTotalDiscounted.innerText = `Discounted Total: ₹${couponDiscount.toFixed(
+				2
+			)}`;
+
+			cartTotalOriginal.style.display = "block";
+			cartTotalDiscounted.style.display = "block";
+			cartTotal.style.display = "none";
+		} else {
+			alert("Invalid coupon code.");
+		}
+	} else {
+		alert("Total must be above ₹250 to apply the coupon.");
+		window.location.href = "/cart";
+		
+	}
+});
+
 async function loadCartAPI() {
 	const cartItems = await getCartItemsAPI();
-
 	console.log("inside loadCartAPI , ", cartItems);
 
 	const cartItemsContainer = document.getElementById("cart-items");
 	const cartTotal = document.getElementById("cart-total");
 	const cartTotalOriginal = document.getElementById("cart-total-original");
 	const cartTotalDiscounted = document.getElementById("cart-total-discounted");
+	const couponDiscount = parseFloat(localStorage.getItem("couponDiscount"));
+	const couponName = localStorage.getItem("couponName");
+
+	localStorage.removeItem("couponName");
+	localStorage.removeItem("couponDiscount");
+	cartTotalOriginal.style.display = "none";
+	cartTotalDiscounted.style.display = "none";
+	cartTotal.style.display = "block";
+
 
 	cartItemsContainer.innerHTML = "";
 	let total = 0;
@@ -195,31 +265,8 @@ async function loadCartAPI() {
 	});
 
 	cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
-	cartTotalOriginal.style.display = "none";
-	cartTotalDiscounted.style.display = "none";
 
-	document.getElementById("apply-coupon").addEventListener("click", () => {
-		if (total >= 250) {
-			const couponCode = document.getElementById("coupon-code").value;
-			if (couponCode === "FRESH50") {
-				alert("Coupon applied successfully! 50% off your total.");
-				const discountedTotal = total * 0.5;
-
-				cartTotalOriginal.innerText = `Original Total: ₹${total.toFixed(2)}`;
-				cartTotalDiscounted.innerText = `Discounted Total: ₹${discountedTotal.toFixed(
-					2
-				)}`;
-
-				cartTotalOriginal.style.display = "block";
-				cartTotalDiscounted.style.display = "block";
-				cartTotal.style.display = "none";
-			} else {
-				alert("Invalid coupon code.");
-			}
-		} else {
-			alert("Total must be above ₹250 to apply the coupon.");
-		}
-	});
+	
 
 	document
 		.querySelectorAll(".plus")
@@ -238,13 +285,13 @@ async function loadCartAPI() {
 		.forEach((btn) => btn.addEventListener("click", addToMyList));
 }
 
+
 // Load and display cart items
 function loadCart() {
 	const cartItems = getCartItems();
 	const cartItemsContainer = document.getElementById("cart-items");
 	const cartTotal = document.getElementById("cart-total");
-	const cartTotalOriginal = document.getElementById("cart-total-original");
-	const cartTotalDiscounted = document.getElementById("cart-total-discounted");
+	
 
 	cartItemsContainer.innerHTML = "";
 	let total = 0;
@@ -287,31 +334,7 @@ function loadCart() {
 	});
 
 	cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
-	cartTotalOriginal.style.display = "none";
-	cartTotalDiscounted.style.display = "none";
-
-	document.getElementById("apply-coupon").addEventListener("click", () => {
-		if (total >= 250) {
-			const couponCode = document.getElementById("coupon-code").value;
-			if (couponCode === "FRESH50") {
-				alert("Coupon applied successfully! 50% off your total.");
-				const discountedTotal = total * 0.5;
-
-				cartTotalOriginal.innerText = `Original Total: ₹${total.toFixed(2)}`;
-				cartTotalDiscounted.innerText = `Discounted Total: ₹${discountedTotal.toFixed(
-					2
-				)}`;
-
-				cartTotalOriginal.style.display = "block";
-				cartTotalDiscounted.style.display = "block";
-				cartTotal.style.display = "none";
-			} else {
-				alert("Invalid coupon code.");
-			}
-		} else {
-			alert("Total must be above ₹250 to apply the coupon.");
-		}
-	});
+	
 
 	document
 		.querySelectorAll(".plus")
@@ -483,7 +506,7 @@ document.getElementById("clear-cart").addEventListener("click", () => {
 //     }
 // });
 
-async function saveOrderDetails(address, phoneNumber, email, totalAmount) {
+async function saveOrderDetails(address, phoneNumber, email, totalAmount, couponName, discount) {
 	try {
 		// ऑर्डर डेटा तैयार करें
 
@@ -491,13 +514,20 @@ async function saveOrderDetails(address, phoneNumber, email, totalAmount) {
 		const userId = await JSON.parse(
 			document.getElementById("user-id").getAttribute("data-userId")
 		);
+
+		const isCouponApplied = (couponName && discount ? true:false);
+
+		console.log("value of couponName == ", couponName);
+		console.log("value of discount == ", discount);
+		console.log("value of couponName && discount", couponName && discount);
+
 		const orderData = {
 			user_id: userId,
 			address: address,
 			phone: phoneNumber,
 			email: email,
 			total: totalAmount,
-			// totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
+			coupon_applied: isCouponApplied
 		};
 
 		console.log("order data print ", orderData);
@@ -550,6 +580,8 @@ function validateCheckoutDetails() {
 // Proceed to Checkout
 document.getElementById("checkout").addEventListener("click", async () => {
 	const cartItems = await getCartItemsAPI();
+	// const cartDetails = await getCartAPI();
+
 	if (cartItems.length === 0) {
 		alert("Your cart is empty!");
 		return;
@@ -563,17 +595,29 @@ document.getElementById("checkout").addEventListener("click", async () => {
 	const address = document.getElementById("address").value.trim();
 	const phone = document.getElementById("phone").value.trim();
 	const email = document.getElementById("email").value.trim();
-	const totalAmount = cartItems.reduce(
+
+	let totalAmount = cartItems.reduce(
 		(total, item) => total + item.price * item.quantity,
 		0
 	);
+
+	const couponDiscount = parseFloat(localStorage.getItem("couponDiscount"));
+	const couponName = localStorage.getItem("couponName");
+
+
+	if(couponDiscount){
+		totalAmount = totalAmount - couponDiscount;
+	}
+	
+
+	const effectiveAmount = totalAmount;
 
 	try {
 		const response = await fetch("http://localhost:5000/create-order", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({
-				amount: totalAmount,
+				amount: effectiveAmount,
 				receipt: `receipt_${new Date().getTime()}`,
 			}),
 		});
@@ -613,7 +657,7 @@ document.getElementById("checkout").addEventListener("click", async () => {
 						alert("Payment verification failed!");
 					} else {
 						alert("Your payment is completed!");
-						await saveOrderDetails(address, phone, email, totalAmount); // save data to database;
+						await saveOrderDetails(address, phone, email, effectiveAmount, couponName, couponDiscount); // save data to database;
 
 						// empty the cart before going to the orders page after successful payment
 						const cartId = await getCartId();

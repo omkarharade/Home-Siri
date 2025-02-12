@@ -59,11 +59,15 @@ export const verifyPayment = async (req, res) => {
 // Create a new order in DB after payment success
 export const createOrder = async (req, res) => {
   try {
-    const { user_id, total, address, phone, email } = req.body;
 
+    const { user_id, total, address, phone, email, coupon_applied } = req.body;
+
+    console.log("value of coupon_applied inside backend == ", coupon_applied);
+    console.log("value of coupon_applied || false inside backend == ", coupon_applied || false);
     if (!user_id || !total || !address || !phone || !email) {
       return res.status(400).json({ message: "Missing required fields." });
     }
+
 
     const newOrder = await Order.create({
       user_id,
@@ -71,7 +75,9 @@ export const createOrder = async (req, res) => {
       address,
       phone,
       email,
-      status: "completed"
+      status: "completed",
+      coupon_applied: coupon_applied || false
+
     });
 
     res.status(201).json({ message: "Order created successfully", newOrder });

@@ -20,6 +20,15 @@ const Cart = sequelize.define("Cart", {
     type: DataTypes.DECIMAL(10, 2),
     defaultValue: 0.00,
   },
+  // applied_coupon_name: {
+  //   defaultValue: "NOCOUPON",
+  //   type: DataTypes.STRING,
+  // },
+
+  // coupon_discount: {
+  //   type: DataTypes.DECIMAL(10,2),
+  //   defaultValue: 0.00,
+  // },
   status: {
     type: DataTypes.STRING,
     defaultValue: "active", // active or checked_out
