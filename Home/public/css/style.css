@@ -1094,3 +1094,24 @@ nav ul li a:hover {
 .remove-item:hover {
   background-color: #ff3333;
 }
+
+.signout-btn{
+  background-color: #fc3939;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight:500;
+  color:white
+
+}
+
+.signout-btn:hover {
+  background-color: #ff3333;
+}
+
+.profile-button-container {
+  display: flex;
+  justify-content: space-between;
+}

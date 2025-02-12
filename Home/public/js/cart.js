@@ -230,6 +230,7 @@ async function loadCartAPI() {
 	if (cartItems.length === 0) {
 		cartItemsContainer.innerHTML =
 			"<font size=15><p>Your Cart Is Empty!</p></font>";
+			cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
 		return;
 	}
 
@@ -414,14 +415,36 @@ async function decreaseQuantity(event) {
 }
 
 // Confirm removal
-function confirmRemove(event) {
+async function confirmRemove(event) {
 	const index = event.target.dataset.index;
-	const cartItems = getCartItems();
-	cartItems.splice(index, 1);
-	saveCartItems(cartItems);
+	const cartItems = await getCartItemsAPI();
+	// cartItems.splice(index, 1);
+
+	console.log("cartitem to be removed === ", cartItems[index]);
+
+	// api function call to remove the selected item from the database 
+	const cartId = cartItems[index].id;
+
+	await removeCartItemAPI(cartId);
+	// saveCartItems(cartItems);
 	// loadCart();
 	loadCartAPI();
 }
+
+async function removeCartItemAPI(cartId){
+
+	const url = `http://localhost:5000/api/cart/item/${cartId}`;
+	const response = await fetch(url, {
+		method: "DELETE",
+		headers: { "Content-Type": "application/json" },
+	});
+	const data = await response.json();
+
+	console.log("response of getCartId from API = ", response);
+	console.log("response.json() of getCartId from API = ", data);
+
+}
+
 
 // Cancel removal
 function cancelRemove(event) {
@@ -715,3 +738,4 @@ async function clearCartAndMoveToOrders(cartId) {
 // Load cart on page load
 //   loadCart();
 loadCartAPI();
+

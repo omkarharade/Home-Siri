@@ -351,11 +351,16 @@
                 </div>
             </section>
 
-
-
-            <button class="upgrade-button" id="upgrade-button"
+            <div class="profile-button-container">
+                <button class="upgrade-button" id="upgrade-button"
                 style="padding: 10px 20px; background-color: purple; color: white; border: none; border-radius: 5px; cursor: pointer;">Upgrade
                 to Premium</button>
+
+                <form action="/profile" method="post">
+
+                    <button class="signout-btn" id="signout-btn">Logout</button>
+                </form>
+            </div>
         </main>
 
         <div class="modal" id="terms-modal">

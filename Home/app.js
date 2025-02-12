@@ -91,11 +91,20 @@ app.post("/login", async function (req, res){
 
 })
 
+app.post("/profile", function (req, res){
+
+  // delete the express session token 
+  delete req.session.token;
+
+  // redirect to login page
+
+  return res.redirect("/login");
+})
 
 app.get("/profile", function (req, res) {
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -112,7 +121,7 @@ app.get("/home", function (req, res){
 
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -129,7 +138,7 @@ app.get("/home/diabetes", function (req, res) {
 
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -145,7 +154,7 @@ app.get("/home/diabetes", function (req, res) {
 app.get("/home/blood-pressure", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -161,7 +170,7 @@ app.get("/home/blood-pressure", function (req, res){
 app.get("/home/heart", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -177,7 +186,7 @@ app.get("/home/heart", function (req, res){
 app.get("/home/high-protein", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -193,7 +202,7 @@ app.get("/home/high-protein", function (req, res){
 app.get("/home/low-fat", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
   
     const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
@@ -212,7 +221,7 @@ app.get("/cart", function (req, res){
 
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
@@ -232,7 +241,7 @@ app.get("/order", function (req, res){
 
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
@@ -248,6 +257,21 @@ app.get("/order", function (req, res){
 })
 
 app.get("/list", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/login');
+    }
+
+    console.log(req.session.token);
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("my-list", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
   res.render("my-list");
 })
 
@@ -255,7 +279,7 @@ app.get("/home/vegetables", function (req, res){
 
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
@@ -273,7 +297,7 @@ app.get("/home/vegetables", function (req, res){
 app.get("/home/fruits", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
@@ -291,7 +315,7 @@ app.get("/home/fruits", function (req, res){
 app.get("/home/grains", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
@@ -309,7 +333,7 @@ app.get("/home/grains", function (req, res){
 app.get("/home/daily", function (req, res){
   try {
     if (!req.session.token) {
-      return res.redirect('/');
+      return res.redirect('/login');
     }
 
     console.log(req.session.token);
