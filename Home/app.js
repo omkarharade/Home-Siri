@@ -125,6 +125,89 @@ app.get("/home", function (req, res){
   }
 });
 
+app.get("/home/diabetes", function (req, res) {
+
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("diabetes", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
+
+app.get("/home/blood-pressure", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("blood-pressure", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
+
+app.get("/home/heart", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("heart", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
+
+app.get("/home/high-protein", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("high-protein", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
+
+app.get("/home/low-fat", function (req, res){
+  try {
+    if (!req.session.token) {
+      return res.redirect('/');
+    }
+  
+    const decoded = jwt.verify(req.session.token, JWT_SECRET_KEY);
+    console.log("Decoded Payload:", decoded);
+    res.render("low-fat", {userId: decoded.id});
+
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+})
+
+
+
 app.get("/cart", function (req, res){
 
   try {
