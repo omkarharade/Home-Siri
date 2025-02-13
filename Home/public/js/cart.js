@@ -471,63 +471,7 @@ document.getElementById("clear-cart").addEventListener("click", () => {
 	alert("Cart cleared!");
 });
 
-//   document.getElementById("checkout").addEventListener("click", async function () {
-//     const address = document.getElementById("address").value.trim();
-//     const phone = document.getElementById("phone").value.trim();
-//     const email = document.getElementById("email").value.trim();
-//     const cartItems = await getCartItemsAPI();
 
-//     // Validation
-//     if (!address) {
-//         document.getElementById("address-error").innerText = "Please enter your address.";
-//         return;
-//     }
-//     if (!phone.match(/^\d{10}$/)) {
-//         document.getElementById("phone-error").innerText = "Enter a valid 10-digit phone number.";
-//         return;
-//     }
-//     if (!email.match(/^\S+@\S+\.\S+$/)) {
-//         document.getElementById("email-error").innerText = "Enter a valid email.";
-//         return;
-//     }
-
-//     // ऑर्डर डेटा तैयार करें
-//     const orderData = {
-//         address,
-//         phone,
-//         email,
-//         items: cartItems|| [],
-//         totalAmount: parseFloat(document.getElementById("cart-total").innerText.replace("Total: ₹", "")),
-//         Total: ₹0.00
-//     };
-
-//     try {
-//         const response = await fetch("http://localhost:5000/api/orders/order", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify(orderData),
-//         });
-//         console.log(response);
-
-//         const result = await response.json();
-
-//         console.log("response from orders api = ", response);
-
-//         if (response.ok) {
-//             alert("Order Placed Successfully!");
-//             localStorage.removeItem("cart"); // कार्ट क्लियर करें
-//             document.getElementById("cart-items").innerHTML = "";
-//             document.getElementById("cart-total").innerText = "Total: ₹0.00";
-//         } else {
-//             alert("Something went wrong: " + result.message);
-//         }
-//     } catch (error) {
-//         alert("Error placing order. Please try again later.");
-//         console.error("Order Error:", error);
-//     }
-// });
 
 async function saveOrderDetails(address, phoneNumber, email, totalAmount, couponName, discount) {
 	try {

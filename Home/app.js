@@ -272,7 +272,6 @@ app.get("/list", function (req, res){
     console.log(error);
     res.redirect("/");
   }
-  res.render("my-list");
 })
 
 app.get("/home/vegetables", function (req, res){

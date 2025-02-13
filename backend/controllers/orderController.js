@@ -90,11 +90,31 @@ export const createOrder = async (req, res) => {
 // Get all orders (for a specific user or all)
 export const getOrders = async (req, res) => {
   try {
-    const { user_id } = req.query;
+    const { user_id, search_query } = req.query;
 
     let orders;
+
     if (user_id) {
-      orders = await Order.findAll({ where: { user_id } });
+
+      if (!search_query || search_query.trim() === "") {
+        // If no query, return all users
+        orders = await Order.findAll({
+          where: {
+            user_id: user_id
+          }
+        });
+      }
+      else{
+        orders = await Order.findAll({ where: { 
+
+          [Op.or]: [
+            { address : { [Op.like]: `%${search_query}%` } },
+            { email: { [Op.like]: `%${search_query}%` } },
+          ],
+          user_id ,
+  
+         } });
+      }
     } else {
       orders = await Order.findAll();
     }

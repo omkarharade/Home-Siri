@@ -1,6 +1,10 @@
 // Function to load the order items from localStorage and display them in card format
+
+
 async function fetchOrders() {
 	const orderContainer = document.getElementById("order-items");
+	orderContainer.innerHTML = "";
+
 	try {
 		const loader = document.getElementById("loader");
 		
@@ -15,10 +19,17 @@ async function fetchOrders() {
 		const userId = await JSON.parse(
 			document.getElementById("user-id").getAttribute("data-userId")
 		);
+
+		const searchQuery = document.getElementById("search-bar").value;
+		console.log("search-query = ", searchQuery);
+
 		const params = new URLSearchParams({
 			user_id: userId,
+			search_query: searchQuery
 		});
 		const url = `http://localhost:5000/api/orders/orders?${params}`;
+
+		console.log("url string is ", url);
 	
 		console.log("calling from the fetch orders function");
 		console.log("userid == ", userId);
@@ -66,30 +77,8 @@ async function fetchOrders() {
 }
 
 function loadOrders() {
+
 	fetchOrders(); // embed orders card to frontend
-
-	const orderItems = JSON.parse(localStorage.getItem("orderItems")) || [];
-	const orderItemsContainer = document.getElementById("order-items");
-	const progressBar = document.getElementById("progress-bar");
-	const progressText = document.getElementById("progress-text");
-	const statusMessage = document.getElementById("status-message");
-	const cancelContainer = document.getElementById("cancel-container");
-	const cancelButton = document.getElementById("cancel-button");
-
-	if (orderItems.length === 0) {
-		orderItemsContainer.innerHTML = "<p>No orders found.</p>";
-		cancelContainer.style.display = "none"; // Hide cancel button if no orders exist
-		return;
-	}
-
-	let startTime = parseFloat(localStorage.getItem("startTime"));
-	if (!startTime) {
-		startTime = Date.now();
-		localStorage.setItem("startTime", startTime);
-	}
-
-	const totalTime = 3600; // 1 hour in seconds
-	const interval = 1000;
 
 	const updateProgress = () => {
 		const elapsedTime = (Date.now() - startTime) / 1000;
@@ -123,6 +112,9 @@ function loadOrders() {
 		progressBar.style.width = `${progress}%`;
 		localStorage.setItem("elapsedTime", elapsedTime.toString());
 	};
+
+	const searchButton = document.getElementById("search-btn");
+	searchButton.addEventListener("click", fetchOrders);
 
 	// Cancel order logic
 	cancelButton.addEventListener("click", () => {
