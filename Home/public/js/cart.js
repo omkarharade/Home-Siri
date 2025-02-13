@@ -80,7 +80,6 @@ function saveCartItems(cartItems) {
 	localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
-//   -------------------------------------------------------------------------------------------
 
 // Add item to cart
 function addToCart(product) {
@@ -159,7 +158,6 @@ async function addToCartAPI(product) {
 	}
 }
 
-//   -----------------------------------------------------------------------------------------------
 
 // Redirect to cart page when cart button is clicked
 document.getElementById("cart-link").addEventListener("click", () => {
@@ -286,90 +284,6 @@ async function loadCartAPI() {
 		.forEach((btn) => btn.addEventListener("click", addToMyList));
 }
 
-
-// Load and display cart items
-function loadCart() {
-	const cartItems = getCartItems();
-	const cartItemsContainer = document.getElementById("cart-items");
-	const cartTotal = document.getElementById("cart-total");
-	
-
-	cartItemsContainer.innerHTML = "";
-	let total = 0;
-
-	if (cartItems.length === 0) {
-		cartItemsContainer.innerHTML =
-			"<font size=15><p>Your Cart Is Empty!</p></font>";
-		return;
-	}
-
-	cartItems.forEach((item, index) => {
-		item.price = parseFloat(item.price); // Ensure price is a number
-
-		const cartItem = document.createElement("div");
-		cartItem.classList.add("cart-item");
-		cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}">
-            <div class="cart-item-details">
-                <div class="cart-item-name">${item.name}</div>
-                <div>Price: ₹${item.price.toFixed(2)}</div>
-                <div>Quantity: ${item.weight}</div> <!-- Add weight here -->
-                <div class="cart-item-quantity">
-                    <button class="minus" data-index="${index}">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="plus" data-index="${index}">+</button>
-                    <button class="add-to-mylist" data-index="${index}">Add To MyList</button>
-                </div>
-            </div>
-            <div class="cart-item-total">₹${(
-							item.price * item.quantity
-						).toFixed(2)}</div>
-            <div class="confirm-remove" id="confirm-remove-${index}">
-                <p>Are you sure you want to remove this item?</p>
-                <button class="yes" data-index="${index}">Yes</button>
-                <button class="no">No</button>
-            </div>
-        `;
-		total += item.price * item.quantity;
-		cartItemsContainer.appendChild(cartItem);
-	});
-
-	cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
-	
-
-	document
-		.querySelectorAll(".plus")
-		.forEach((btn) => btn.addEventListener("click", increaseQuantity));
-	document
-		.querySelectorAll(".minus")
-		.forEach((btn) => btn.addEventListener("click", decreaseQuantity));
-	document
-		.querySelectorAll(".yes")
-		.forEach((btn) => btn.addEventListener("click", confirmRemove));
-	document
-		.querySelectorAll(".no")
-		.forEach((btn) => btn.addEventListener("click", cancelRemove));
-	document
-		.querySelectorAll(".add-to-mylist")
-		.forEach((btn) => btn.addEventListener("click", addToMyList));
-}
-
-// Add item to MyList
-function addToMyList(event) {
-	const index = event.target.dataset.index;
-	const cartItems = getCartItems();
-	const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
-
-	const itemToAdd = cartItems[index];
-	if (!myListItems.find((item) => item.id === itemToAdd.id)) {
-		myListItems.push(itemToAdd);
-		localStorage.setItem("myListItems", JSON.stringify(myListItems));
-		alert(`${itemToAdd.name} has been added to My List!`);
-	} else {
-		alert(`${itemToAdd.name} is already in My List.`);
-	}
-}
-
 async function updateCartItem(cartItemId, quantity) {
 	console.log("cartItemId", cartItemId);
 	console.log("quantity", quantity);
@@ -452,7 +366,6 @@ function cancelRemove(event) {
 }
 
 // clear cart function
-
 async function clearCart(){
 
     const cartId = await getCartId();
@@ -679,7 +592,5 @@ async function clearCartAndMoveToOrders(cartId) {
 	window.location.href = "/order";
 }
 
-// Load cart on page load
-//   loadCart();
 loadCartAPI();
 
