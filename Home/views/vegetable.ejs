@@ -21,46 +21,14 @@
 </head>
 
 <body>
-    <nav>
-        <input type="checkbox" id="check">
-        <label for="check" class="checkbtn">
-            <i class="fas fa-bars"></i>
-        </label>
-        <label class="logo">FreshCart<i class="fas fa-shopping-cart"></i></label>
-        <ul>
-            <li><a class="active" href="home.html"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-            <li><a href="mylist.html">My List</a></li>
-            <li><a href="order.html">Orders</a></li> <!-- Added Order Section -->
-            <li>
-                <a id="cart-link" href="cart.html">
-                    Cart
-                </a>
-            </li>
-            <li><a href="#">Help</a></li>
-            <li><a href="#">About Us</a></li>
-            <div class="right-section">
-            </ul>
-            <div class="search-container">
-                <form action="javascript:void(0);">
-                    <input type="text" id="search-bar" placeholder="Search for items..." name="q">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-            </div>
-        <!-- Profile Circle -->
-        <div class="profile-circle" id="profileCircle">J</div>
-    </nav>
-            <!-- Filter Dropdown for Premium Members -->
-            <div id="filter-container" style="display: none;">
-                <label for="filter-select">Filter by Health Benefit:</label>
-                <select id="filter-select">
-                    <option value="">Select</option>
-                    <option value="diabetes">Diabetes</option>
-                    <option value="heart">Heart</option>
-                    <option value="blood">Blood Pressure</option>
-                    <option value="high-protein">High Protein</option>
-                    <option value="less-fat">Less Fat</option>
-                </select>
-            </div>
+
+    <!-- navbar -->
+    <%- include('partials/home-navbar') %>
+
+    <!-- filter container -->
+    <%- include('partials/filter-container') %>
+
+
     <div id="loader">
         <img src="../images/loading.gif" alt="Loading..." />
     </div>
@@ -503,6 +471,18 @@
         </div>
 
     </section>
+
+    <!-- hidden variables section  --------------------------------------------------->
+
+
+
+ <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
+
+
+
+ <!-- -------------------------------------------------------------------------- -->
+
+ 
     <!--footer---------------------------->
     <footer>
         <!--copyright-------------->
