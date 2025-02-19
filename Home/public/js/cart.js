@@ -53,7 +53,7 @@ async function getCartItemsAPI() {
 	return data.cart.CartItems;
 }
 
-async function getCartAPI(){
+async function getCartAPI() {
 	const userId = await JSON.parse(
 		document.getElementById("user-id").getAttribute("data-userId")
 	);
@@ -79,7 +79,6 @@ async function getCartAPI(){
 function saveCartItems(cartItems) {
 	localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
-
 
 // Add item to cart
 function addToCart(product) {
@@ -158,14 +157,12 @@ async function addToCartAPI(product) {
 	}
 }
 
-
 // Redirect to cart page when cart button is clicked
 document.getElementById("cart-link").addEventListener("click", () => {
 	window.location.href = "/cart";
 });
 
 document.getElementById("apply-coupon").addEventListener("click", async () => {
-
 	const cartTotal = document.getElementById("cart-total");
 	const cartTotalOriginal = document.getElementById("cart-total-original");
 	const cartTotalDiscounted = document.getElementById("cart-total-discounted");
@@ -200,27 +197,19 @@ document.getElementById("apply-coupon").addEventListener("click", async () => {
 	} else {
 		alert("Total must be above ₹250 to apply the coupon.");
 		window.location.href = "/cart";
-		
 	}
 });
 
 async function loadCartAPI() {
 	const cartItems = await getCartItemsAPI();
 	console.log("inside loadCartAPI , ", cartItems);
-
 	const cartItemsContainer = document.getElementById("cart-items");
 	const cartTotal = document.getElementById("cart-total");
 	const cartTotalOriginal = document.getElementById("cart-total-original");
 	const cartTotalDiscounted = document.getElementById("cart-total-discounted");
-	const couponDiscount = parseFloat(localStorage.getItem("couponDiscount"));
-	const couponName = localStorage.getItem("couponName");
-
-	localStorage.removeItem("couponName");
-	localStorage.removeItem("couponDiscount");
 	cartTotalOriginal.style.display = "none";
 	cartTotalDiscounted.style.display = "none";
 	cartTotal.style.display = "block";
-
 
 	cartItemsContainer.innerHTML = "";
 	let total = 0;
@@ -228,7 +217,7 @@ async function loadCartAPI() {
 	if (cartItems.length === 0) {
 		cartItemsContainer.innerHTML =
 			"<font size=15><p>Your Cart Is Empty!</p></font>";
-			cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
+		cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
 		return;
 	}
 
@@ -264,8 +253,6 @@ async function loadCartAPI() {
 	});
 
 	cartTotal.innerText = `Total: ₹${total.toFixed(2)}`;
-
-	
 
 	document
 		.querySelectorAll(".plus")
@@ -328,6 +315,33 @@ async function decreaseQuantity(event) {
 	}
 }
 
+// Add item to MyList
+async function addToMyList(event) {
+	const index = event.target.dataset.index;
+	const cartItems = await getCartItemsAPI();
+	const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
+	const itemToAdd = cartItems[index];
+
+	// Debugging logs
+	console.log("Item to Add:", itemToAdd);
+	console.log("Item ID:", itemToAdd.id);
+	console.log("My List Items:", myListItems);
+
+	if (!myListItems.find((item) => item.id === itemToAdd.id)) {
+		myListItems.push(itemToAdd);
+		localStorage.setItem("myListItems", JSON.stringify(myListItems));
+
+		// call api to delete that specific item 
+		await removeCartItemAPI(itemToAdd.id)
+
+		alert(`${itemToAdd.product_id} has been added to My List!`);
+
+		await loadCartAPI();
+	} else {
+		alert(`${itemToAdd.product_id} is already in My List.`);
+	}
+}
+
 // Confirm removal
 async function confirmRemove(event) {
 	const index = event.target.dataset.index;
@@ -336,18 +350,17 @@ async function confirmRemove(event) {
 
 	console.log("cartitem to be removed === ", cartItems[index]);
 
-	// api function call to remove the selected item from the database 
-	const cartId = cartItems[index].id;
+	// api function call to remove the selected item from the database
+	const cartItemId = cartItems[index].id;
 
-	await removeCartItemAPI(cartId);
+	await removeCartItemAPI(cartItemId);
 	// saveCartItems(cartItems);
 	// loadCart();
 	loadCartAPI();
 }
 
-async function removeCartItemAPI(cartId){
-
-	const url = `http://localhost:5000/api/cart/item/${cartId}`;
+async function removeCartItemAPI(cartItemId) {
+	const url = `http://localhost:5000/api/cart/item/${cartItemId}`;
 	const response = await fetch(url, {
 		method: "DELETE",
 		headers: { "Content-Type": "application/json" },
@@ -356,9 +369,7 @@ async function removeCartItemAPI(cartId){
 
 	console.log("response of getCartId from API = ", response);
 	console.log("response.json() of getCartId from API = ", data);
-
 }
-
 
 // Cancel removal
 function cancelRemove(event) {
@@ -366,27 +377,30 @@ function cancelRemove(event) {
 }
 
 // clear cart function
-async function clearCart(){
+async function clearCart() {
+	const cartId = await getCartId();
+	await clearCartAPI(cartId);
 
-    const cartId = await getCartId();
-    await clearCartAPI(cartId);
-    
-
-    await loadCartAPI();
+	await loadCartAPI();
 }
 // Clear the cart
 document.getElementById("clear-cart").addEventListener("click", () => {
 	localStorage.removeItem("cartItems");
 
-    // clear cart API call 
-    clearCart();
-    document.getElementById("cart-total").innerText = "Total: ₹0.00"
+	// clear cart API call
+	clearCart();
+	document.getElementById("cart-total").innerText = "Total: ₹0.00";
 	alert("Cart cleared!");
 });
 
-
-
-async function saveOrderDetails(address, phoneNumber, email, totalAmount, couponName, discount) {
+async function saveOrderDetails(
+	address,
+	phoneNumber,
+	email,
+	totalAmount,
+	couponName,
+	discount
+) {
 	try {
 		// ऑर्डर डेटा तैयार करें
 
@@ -395,7 +409,7 @@ async function saveOrderDetails(address, phoneNumber, email, totalAmount, coupon
 			document.getElementById("user-id").getAttribute("data-userId")
 		);
 
-		const isCouponApplied = (couponName && discount ? true:false);
+		const isCouponApplied = couponName && discount ? true : false;
 
 		console.log("value of couponName == ", couponName);
 		console.log("value of discount == ", discount);
@@ -407,7 +421,7 @@ async function saveOrderDetails(address, phoneNumber, email, totalAmount, coupon
 			phone: phoneNumber,
 			email: email,
 			total: totalAmount,
-			coupon_applied: isCouponApplied
+			coupon_applied: isCouponApplied,
 		};
 
 		console.log("order data print ", orderData);
@@ -484,11 +498,9 @@ document.getElementById("checkout").addEventListener("click", async () => {
 	const couponDiscount = parseFloat(localStorage.getItem("couponDiscount"));
 	const couponName = localStorage.getItem("couponName");
 
-
-	if(couponDiscount){
+	if (couponDiscount) {
 		totalAmount = totalAmount - couponDiscount;
 	}
-	
 
 	const effectiveAmount = totalAmount;
 
@@ -537,7 +549,14 @@ document.getElementById("checkout").addEventListener("click", async () => {
 						alert("Payment verification failed!");
 					} else {
 						alert("Your payment is completed!");
-						await saveOrderDetails(address, phone, email, effectiveAmount, couponName, couponDiscount); // save data to database;
+						await saveOrderDetails(
+							address,
+							phone,
+							email,
+							effectiveAmount,
+							couponName,
+							couponDiscount
+						); // save data to database;
 
 						// empty the cart before going to the orders page after successful payment
 						const cartId = await getCartId();
@@ -587,10 +606,21 @@ async function clearCartAPI(cartId) {
 
 // Move cart items to orders page
 async function clearCartAndMoveToOrders(cartId) {
-    console.log("cart id is === > ", cartId);
+	console.log("cart id is === > ", cartId);
 	await clearCartAPI(cartId);
 	window.location.href = "/order";
 }
 
-loadCartAPI();
+// Get the current value from localStorage
+let myListItems = JSON.parse(localStorage.getItem("myListItems"));
 
+// Check if myListItems is not an array or is null
+if (!Array.isArray(myListItems)) {
+    console.log("Resetting myListItems to an empty array...");
+    myListItems = [];
+    localStorage.setItem("myListItems", JSON.stringify(myListItems)); // Reset only if needed
+} else {
+    console.log("myListItems is already set:", myListItems);
+}
+
+loadCartAPI();

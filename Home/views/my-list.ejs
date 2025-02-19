@@ -196,7 +196,7 @@
                 myListItem.innerHTML = `
                     <img src="${item.image}" alt="${item.name}">
                     <div class="mylist-item-details">
-                        <div class="mylist-item-name">${item.name}</div>
+                        <div class="mylist-item-name">${item.product_id}</div>
                         <p>Price: ₹${isNaN(price) ? "N/A" : price.toFixed(2)}</p>
                         <p>Quantity: ${item.quantity || 1}</p>
                         <label for="schedule-date-${item.id}">Select Date:</label>
