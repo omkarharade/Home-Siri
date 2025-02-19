@@ -161,13 +161,25 @@
     <h1>My List</h1>
     <div id="mylist-items"></div>
 
+    <!-- loading active list items here -->
+    <div id="active-list-items"></div>
+
+    <div>
+        <div>
+            <label for="schedule-date-${item.id}">Select Date:</label>
+            <input type="date" id="schedule-date-${item.id}">
+        
+            <label for="schedule-time-${item.id}">Select Time:</label>
+            <input type="time" id="schedule-time-${item.id}" step="1">
+         </div>
+        
+         <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
+    </div>
+
+
     <!-- hidden variables section  --------------------------------------------------->
 
-
-
  <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
-
-
 
  <!-- -------------------------------------------------------------------------- -->
       
@@ -177,6 +189,61 @@
 
     <script>
         let activeCountdowns = {};
+
+        async function loadMyListAPI() {
+            const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
+            const activeListItems = await getListItemsAPI()
+            const scheduledListItems = [];
+
+            console.log("showing active list items == ", activeListItems)
+
+            const activeListContainer = document.getElementById("active-list-items");
+            const scheduledListContainer = document.getElementById("scheduled-list-items");
+
+            myListContainer.innerHTML = "";
+            activeListContainer.innerHTML = "";
+            scheduledListContainer.innerHTML = "";
+
+            if (activeListItems.length === 0) {
+                activeListContainer.innerHTML = "<p class='empty-message'>Your List Is Empty!</p>";
+                return;
+            }
+
+            activeListItems.forEach(item => {
+                const price = parseFloat(item.price);
+                const activeListItem = document.createElement("div");
+                activeListItem.classList.add("mylist-item");
+                activeListItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.product_id}">
+                    <div class="mylist-item-details">
+                        <div class="mylist-item-name">${item.product_id}</div>
+                        <p>Price: ₹${isNaN(price) ? "N/A" : price.toFixed(2)}</p>
+                        <p>Quantity: ${item.quantity || 1}</p>
+                        <div class="countdown" id="countdown-${item.id}"></div>
+                        <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
+                        <button class="remove" data-id="${item.id}">Remove</button>
+                        <div class="message" id="message-${item.id}"></div>
+                    </div>
+                `;
+                activeListContainer.appendChild(activeListItem);
+
+                const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
+                if (storedCountdown) {
+                    const targetDate = new Date(storedCountdown.targetDate);
+                    if (targetDate > new Date()) {
+                        startCountdown(item.id, targetDate);
+                    }
+                }
+            });
+
+            document.querySelectorAll('.remove').forEach(button => {
+                button.addEventListener('click', removeProduct);
+            });
+
+            document.querySelectorAll('.confirm-schedule').forEach(button => {
+                button.addEventListener('click', confirmSchedule);
+            });
+        }
 
         function loadMyList() {
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
@@ -329,7 +396,7 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", loadMyList);
+        document.addEventListener("DOMContentLoaded", loadMyListAPI);
     </script>
 </body>
 

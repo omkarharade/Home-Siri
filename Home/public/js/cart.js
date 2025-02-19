@@ -268,7 +268,7 @@ async function loadCartAPI() {
 		.forEach((btn) => btn.addEventListener("click", cancelRemove));
 	document
 		.querySelectorAll(".add-to-mylist")
-		.forEach((btn) => btn.addEventListener("click", addToMyList));
+		.forEach((btn) => btn.addEventListener("click", addToMyListAPI));
 }
 
 async function updateCartItem(cartItemId, quantity) {
@@ -319,7 +319,6 @@ async function decreaseQuantity(event) {
 async function addToMyList(event) {
 	const index = event.target.dataset.index;
 	const cartItems = await getCartItemsAPI();
-	const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
 	const itemToAdd = cartItems[index];
 
 	// Debugging logs
@@ -327,19 +326,88 @@ async function addToMyList(event) {
 	console.log("Item ID:", itemToAdd.id);
 	console.log("My List Items:", myListItems);
 
-	if (!myListItems.find((item) => item.id === itemToAdd.id)) {
+		// add 
 		myListItems.push(itemToAdd);
 		localStorage.setItem("myListItems", JSON.stringify(myListItems));
 
-		// call api to delete that specific item 
-		await removeCartItemAPI(itemToAdd.id)
-
+		// call api to delete that specific item
+		await removeCartItemAPI(itemToAdd.id);
 		alert(`${itemToAdd.product_id} has been added to My List!`);
 
 		await loadCartAPI();
+}
+
+// Add item to MyList
+async function addToMyListAPI(event) {
+	
+	try {
+		const userId = JSON.parse(
+			document.getElementById("user-id").getAttribute("data-userId")
+		);
+
+	const index = event.target.dataset.index;
+	const cartItems = await getCartItemsAPI();
+	const product = cartItems[index];
+
+	// Debugging logs
+	console.log("Item to Add:", product);
+	console.log("Item ID:", product.id);
+	console.log("My List Items:", myListItems);
+
+	// API call to add items to active list 
+
+	const response = await fetch("http://localhost:5000/api/list/active/add", {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			user_id: userId,
+			product_id: product.id,
+			quantity: product.quantity,
+			price: product.price,
+			weight: product.weight,
+			image: product.image,
+		}),
+	});
+
+	if (response.status === 200 || response.status === 201) {
+		const data = await response.json();
+		console.log(data.message);
+		console.log("response from addToMyList api  = ", data);
 	} else {
-		alert(`${itemToAdd.product_id} is already in My List.`);
+		console.log("some error occured");
+		console.log(data.message);
 	}
+		// call api to delete that specific item
+		await removeCartItemAPI(product.id);
+		alert(`${product.product_id} has been added to My List!`);
+		await loadCartAPI();
+
+	} catch (error) {
+		console.log("error from addToMyListAPI", error)
+	}
+}
+
+
+async function getListItemsAPI() {
+
+	const params = new URLSearchParams({
+		user_id: userId,
+	});
+	const url = `http://localhost:5000/api/list/active?${params}`;
+
+	console.log("userid == ", userId);
+
+	const response = await fetch(url, {
+		method: "GET",
+		headers: { "Content-Type": "application/json" },
+	});
+	const data = await response.json();
+
+	console.log("response of getActiveList from API = ", response);
+	console.log("response.json() of getActiveList from API = ", data);
+	console.log("list items", data.list.ListItems);
+
+	return data.list.ListItems || [];
 }
 
 // Confirm removal
@@ -616,11 +684,11 @@ let myListItems = JSON.parse(localStorage.getItem("myListItems"));
 
 // Check if myListItems is not an array or is null
 if (!Array.isArray(myListItems)) {
-    console.log("Resetting myListItems to an empty array...");
-    myListItems = [];
-    localStorage.setItem("myListItems", JSON.stringify(myListItems)); // Reset only if needed
+	console.log("Resetting myListItems to an empty array...");
+	myListItems = [];
+	localStorage.setItem("myListItems", JSON.stringify(myListItems)); // Reset only if needed
 } else {
-    console.log("myListItems is already set:", myListItems);
+	console.log("myListItems is already set:", myListItems);
 }
 
 loadCartAPI();

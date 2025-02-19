@@ -10,7 +10,7 @@ export const getActiveList = async (req, res) => {
 			return res.status(400).json({ message: "User ID is required" });
 		}
 
-		let list = await List.findOrCreate({
+		let [list] = await List.findOrCreate({
 			where: {
 				user_id,
 				status: "active",
@@ -89,7 +89,7 @@ export const addToActiveList = async (req, res) => {
 		}
 
 		// Update list total
-		list.total = await listItem.sum("price", {
+		list.total = await ListItem.sum("price", {
 			where: { list_id: list.id },
 		});
 		await list.save();
@@ -106,7 +106,7 @@ export const addToActiveList = async (req, res) => {
 };
 
 // update list item quantity 
-export const updateListItem = async (req, res) => {
+export const updateActiveListItem = async (req, res) => {
 	try {
 		const { list_item_id, quantity } = req.body;
 
@@ -142,7 +142,7 @@ export const updateListItem = async (req, res) => {
 
 
 // Remove item from list
-export const removeFromList = async (req, res) => {
+export const removeFromActiveList = async (req, res) => {
     try {
       const { list_item_id } = req.params;
   
@@ -174,7 +174,7 @@ export const removeFromList = async (req, res) => {
 
 
 // clear list 
-export const clearList = async (req, res) => {
+export const clearActiveList = async (req, res) => {
     try {
       const { list_id } = req.params;
   

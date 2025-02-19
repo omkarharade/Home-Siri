@@ -5,6 +5,7 @@ import Razorpay from "razorpay";
 import authRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import router from "./routes/userRoutes.js"
+import listRouter from "./routes/listRoutes.js"
 import crypto from "crypto";
 import cron from "node-cron";
 import User from "../backend/model/user.js";
@@ -16,6 +17,7 @@ app.use(cors());
 app.use("/api/auth", authRouter);  // Auth routes (signup/login)
 app.use("/api/orders", router); // Order routes (create/get)
 app.use("/api/cart", cartRouter);
+app.use("/api/list", listRouter);
 
 
 
