@@ -315,6 +315,15 @@ async function decreaseQuantity(event) {
 	}
 }
 
+
+
+
+
+
+
+
+
+
 // Add item to MyList
 async function addToMyList(event) {
 	const index = event.target.dataset.index;
@@ -361,7 +370,7 @@ async function addToMyListAPI(event) {
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
 			user_id: userId,
-			product_id: product.id,
+			product_id: product.product_id,
 			quantity: product.quantity,
 			price: product.price,
 			weight: product.weight,
@@ -375,7 +384,6 @@ async function addToMyListAPI(event) {
 		console.log("response from addToMyList api  = ", data);
 	} else {
 		console.log("some error occured");
-		console.log(data.message);
 	}
 		// call api to delete that specific item
 		await removeCartItemAPI(product.id);
@@ -390,6 +398,10 @@ async function addToMyListAPI(event) {
 
 async function getListItemsAPI() {
 
+	const userId = await JSON.parse(
+		document.getElementById("user-id").getAttribute("data-userId")
+	);
+	
 	const params = new URLSearchParams({
 		user_id: userId,
 	});

@@ -1,14 +1,14 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 
 <head>
     <meta charset="utf-8">
     <title>Home Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <script src="../js/profile.js" ></script>
+    <script src="../js/profile.js"></script>
     <script src="../js/data.js" defer></script>
     <script src="../js/search.js" defer></script>
     <script src="../js/filter.js" defer></script>
@@ -150,7 +150,7 @@
             </li>
             <li><a href="#">Help</a></li>
             <li><a href="#">About Us</a></li>
-            
+
         </ul>
         <div class="profile-circle" id="profileCircle">J</div>
     </nav>
@@ -164,25 +164,28 @@
     <!-- loading active list items here -->
     <div id="active-list-items"></div>
 
+     <!-- loading active list items here -->
+    <div id="scheduled-list-items"></div>
+
     <div>
         <div>
             <label for="schedule-date-${item.id}">Select Date:</label>
             <input type="date" id="schedule-date-${item.id}">
-        
+
             <label for="schedule-time-${item.id}">Select Time:</label>
             <input type="time" id="schedule-time-${item.id}" step="1">
-         </div>
-        
-         <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
+        </div>
+
+        <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
     </div>
 
 
     <!-- hidden variables section  --------------------------------------------------->
 
- <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
+    <div id="user-id" data-userId='<%= JSON.stringify(userId) %>'></div>
 
- <!-- -------------------------------------------------------------------------- -->
-      
+    <!-- -------------------------------------------------------------------------- -->
+
     <footer>
         <p>© 2024 FreshCart. All rights reserved.</p>
     </footer>
@@ -191,6 +194,7 @@
         let activeCountdowns = {};
 
         async function loadMyListAPI() {
+
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
             const activeListItems = await getListItemsAPI()
             const scheduledListItems = [];
@@ -199,6 +203,7 @@
 
             const activeListContainer = document.getElementById("active-list-items");
             const scheduledListContainer = document.getElementById("scheduled-list-items");
+            const myListContainer = document.getElementById("mylist-items");
 
             myListContainer.innerHTML = "";
             activeListContainer.innerHTML = "";
@@ -208,6 +213,8 @@
                 activeListContainer.innerHTML = "<p class='empty-message'>Your List Is Empty!</p>";
                 return;
             }
+
+            console.log("activelistitem logging == ", activeListItems)
 
             activeListItems.forEach(item => {
                 const price = parseFloat(item.price);
@@ -220,7 +227,6 @@
                         <p>Price: ₹${isNaN(price) ? "N/A" : price.toFixed(2)}</p>
                         <p>Quantity: ${item.quantity || 1}</p>
                         <div class="countdown" id="countdown-${item.id}"></div>
-                        <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
                         <button class="remove" data-id="${item.id}">Remove</button>
                         <div class="message" id="message-${item.id}"></div>
                     </div>
@@ -237,13 +243,41 @@
             });
 
             document.querySelectorAll('.remove').forEach(button => {
-                button.addEventListener('click', removeProduct);
+                button.addEventListener('click', removeProductAPI);
             });
 
             document.querySelectorAll('.confirm-schedule').forEach(button => {
                 button.addEventListener('click', confirmSchedule);
             });
         }
+
+
+        async function getListItemsAPI() {
+
+            const userId = await JSON.parse(
+                document.getElementById("user-id").getAttribute("data-userId")
+            );
+            
+            const params = new URLSearchParams({
+                user_id: userId,
+            });
+            const url = `http://localhost:5000/api/list/active?${params}`;
+
+            console.log("userid == ", userId);
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+
+            console.log("response of getActiveList from API = ", response);
+            console.log("response.json() of getActiveList from API = ", data);
+            console.log("list items", data.list.ListItems);
+
+            return data.list.ListItems || [];
+        }
+
 
         function loadMyList() {
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
@@ -386,6 +420,35 @@
             loadMyList();
         }
 
+        async function removeProductAPI(event){
+            try {
+                const removeButton = event.target;
+                const myListItem = removeButton.closest('.mylist-item');
+                const itemId = removeButton.dataset.id;
+
+                const url = `http://localhost:5000/api/list/active/item/${itemId}`;
+
+                const response = await fetch(url, {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                });
+                const data = await response.json();
+
+                console.log("response of removeProductAPI = ", response);
+                console.log("response.json() of removeProductAPI  = ", data);
+
+                if (activeCountdowns[itemId]) {
+                    clearInterval(activeCountdowns[itemId]);
+                    delete activeCountdowns[itemId];
+                }
+
+                loadMyListAPI();
+
+
+            } catch (error) {
+                console.log("error from removeProductAPI", error);
+            }
+        }
         function moveToOrders(itemId) {
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
             const orders = JSON.parse(localStorage.getItem("orders")) || [];
