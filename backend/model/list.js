@@ -1,6 +1,13 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/databases.js";
 import User from "./user.js";
+import crypto from "crypto";
+import Razorpay from "razorpay";
+
+const razorpay = new Razorpay({
+  key_id: "rzp_test_ZEsh3BtedaNCaU", // Replace with your actual Razorpay key
+  key_secret: "PIApMOZcNKbj8eElMilQqzxx", // Replace with your Razorpay secret
+});
 
 const List = sequelize.define("List", {
   id: {
@@ -38,7 +45,7 @@ const List = sequelize.define("List", {
 
 // Establish relationship with User
 List.belongsTo(User, { foreignKey: 'user_id' });
-User.hasOne(List, { foreignKey: 'user_id' });
+User.hasMany(List, { foreignKey: 'user_id' }); // If a user can have multiple lists
 
 sequelize
   .sync()

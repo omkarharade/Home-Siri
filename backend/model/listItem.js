@@ -41,13 +41,13 @@ const ListItem = sequelize.define("ListItem", {
   timestamps: true,
 });
 
-// Establish relationship with Cart
-ListItem.belongsTo(List, { foreignKey: 'cart_id' });
-List.hasMany(ListItem, { foreignKey: 'cart_id' });
+// Establish relationship with List
+ListItem.belongsTo(List, { foreignKey: 'list_id' });
+List.hasMany(ListItem, { foreignKey: 'list_id' });
 
 sequelize
   .sync()
-  .then(() => console.log("CartItem table has been created or updated."))
-  .catch((err) => console.error("Error creating or updating cart items table:", err));
+  .then(() => console.log("ListItem table has been created or updated."))
+  .catch((err) => console.error("Error creating or updating list items table:", err));
 
-export default CartItem;
+export default ListItem;
