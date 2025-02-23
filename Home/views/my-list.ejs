@@ -161,23 +161,28 @@
     <h1>My List</h1>
     <div id="mylist-items"></div>
 
-    <!-- loading active list items here -->
-    <div id="active-list-items"></div>
+    <div class="">
 
-     <!-- loading active list items here -->
-    <div id="scheduled-list-items"></div>
+        <!-- loading active list items here -->
+        <div id="active-list-items"></div>
 
-    <div>
         <div>
-            <label for="schedule-date-${item.id}">Select Date:</label>
-            <input type="date" id="schedule-date-${item.id}">
+            <div>
+                <label for="schedule-date">Select Date:</label>
+                <input type="date" id="schedule-date">
 
-            <label for="schedule-time-${item.id}">Select Time:</label>
-            <input type="time" id="schedule-time-${item.id}" step="1">
+                <label for="schedule-time">Select Time:</label>
+                <input type="time" id="schedule-time" step="1">
+            </div>
+
+            <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
         </div>
-
-        <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
     </div>
+
+
+    <!-- loading active list items here -->
+    <div id="scheduled-lists"></div>
+
 
 
     <!-- hidden variables section  --------------------------------------------------->
@@ -196,31 +201,32 @@
         async function loadMyListAPI() {
 
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
-            const activeListItems = await getListItemsAPI()
-            const scheduledListItems = [];
+            const activeListItems = await getActiveListItemsAPI()
+            const scheduledLists = await getScheduledListAPI();
 
             console.log("showing active list items == ", activeListItems)
 
             const activeListContainer = document.getElementById("active-list-items");
-            const scheduledListContainer = document.getElementById("scheduled-list-items");
+            const AllScheduledListContainer = document.getElementById("scheduled-lists");
             const myListContainer = document.getElementById("mylist-items");
 
             myListContainer.innerHTML = "";
             activeListContainer.innerHTML = "";
-            scheduledListContainer.innerHTML = "";
+            AllScheduledListContainer.innerHTML = "";
 
             if (activeListItems.length === 0) {
                 activeListContainer.innerHTML = "<p class='empty-message'>Your List Is Empty!</p>";
-                return;
             }
 
             console.log("activelistitem logging == ", activeListItems)
 
-            activeListItems.forEach(item => {
-                const price = parseFloat(item.price);
-                const activeListItem = document.createElement("div");
-                activeListItem.classList.add("mylist-item");
-                activeListItem.innerHTML = `
+            if (!(activeListItems.length === 0)) {
+
+                activeListItems.forEach(item => {
+                    const price = parseFloat(item.price);
+                    const activeListItem = document.createElement("div");
+                    activeListItem.classList.add("mylist-item");
+                    activeListItem.innerHTML = `
                     <img src="${item.image}" alt="${item.product_id}">
                     <div class="mylist-item-details">
                         <div class="mylist-item-name">${item.product_id}</div>
@@ -231,16 +237,69 @@
                         <div class="message" id="message-${item.id}"></div>
                     </div>
                 `;
-                activeListContainer.appendChild(activeListItem);
+                    activeListContainer.appendChild(activeListItem);
 
-                const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
-                if (storedCountdown) {
-                    const targetDate = new Date(storedCountdown.targetDate);
-                    if (targetDate > new Date()) {
-                        startCountdown(item.id, targetDate);
+                    const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
+                    if (storedCountdown) {
+                        const targetDate = new Date(storedCountdown.targetDate);
+                        if (targetDate > new Date()) {
+                            startCountdown(item.id, targetDate);
+                        }
                     }
-                }
-            });
+                });
+
+            }
+
+
+            scheduledLists.forEach((scheduledList, index) => {
+
+                const scheduledListContainer = document.createElement("div");
+                scheduledListContainer.classList.add("scheduled-list");
+                scheduledListContainer.innerHTML = `
+                        <p>Scheduled List - : ${index + 1}</p>
+                    `
+
+                scheduledList.ListItems.forEach(item => {
+                    const price = parseFloat(item.price);
+                    const scheduledListItem = document.createElement("div");
+                    scheduledListItem.classList.add("mylist-item");
+                    scheduledListItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.product_id}">
+                        <div class="mylist-item-details">
+                            <div class="mylist-item-name">${item.product_id}</div>
+                            <p>Price: ₹${isNaN(price) ? "N/A" : price.toFixed(2)}</p>
+                            <p>Quantity: ${item.quantity || 1}</p>
+                            <div class="countdown" id="countdown-${item.id}"></div>
+                        </div>
+                    `;
+
+                    scheduledListContainer.appendChild(scheduledListItem);
+
+                    const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
+                    if (storedCountdown) {
+                        const targetDate = new Date(storedCountdown.targetDate);
+                        if (targetDate > new Date()) {
+                            startCountdown(item.id, targetDate);
+                        }
+                    }
+                })
+
+                const scheduleDetails = document.createElement("div");
+                const totalFloat = parseFloat(scheduledList.total);
+                scheduleDetails.classList.add("mylist-item");
+                scheduleDetails.innerHTML = `
+                    <div class="mylist-item-details">
+                        <p>List Total: ₹${isNaN(totalFloat) ? "N/A" : totalFloat.toFixed(2)}</p>
+                        <p>Schedule Date: ${scheduledList.schedule_date}</p>
+                        <p>Schedule Time: ${scheduledList.schedule_time}</p>
+                    </div>
+                    `;
+                scheduledListContainer.appendChild(scheduleDetails);
+
+
+                AllScheduledListContainer.appendChild(scheduledListContainer);
+            })
+
 
             document.querySelectorAll('.remove').forEach(button => {
                 button.addEventListener('click', removeProductAPI);
@@ -251,13 +310,37 @@
             });
         }
 
+        async function getScheduledListAPI() {
+            const userId = await JSON.parse(
+                document.getElementById("user-id").getAttribute("data-userId")
+            );
 
-        async function getListItemsAPI() {
+            const params = new URLSearchParams({
+                user_id: userId,
+            });
+            const url = `http://localhost:5000/api/list/scheduled?${params}`;
+
+            console.log("userid == ", userId);
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+
+            console.log("response of getScheduledList from API = ", response);
+            console.log("response.json() of getScheduledList from API = ", data);
+            console.log("sch. list", data.list);
+
+            return data.list || [];
+        }
+
+        async function getActiveListItemsAPI() {
 
             const userId = await JSON.parse(
                 document.getElementById("user-id").getAttribute("data-userId")
             );
-            
+
             const params = new URLSearchParams({
                 user_id: userId,
             });
@@ -330,26 +413,74 @@
             });
         }
 
-        function confirmSchedule(event) {
-            const scheduleButton = event.target;
-            const myListItem = scheduleButton.closest('.mylist-item');
-            const itemId = myListItem.querySelector('.remove').dataset.id;
 
-            const selectedDate = myListItem.querySelector(`#schedule-date-${itemId}`).value;
-            const selectedTime = myListItem.querySelector(`#schedule-time-${itemId}`).value;
+        async function updateActiveListToScheduled(scheduleDate, scheduleTime) {
+
+            try {
+                const response = await fetch("http://localhost:5000/api/list/active/confirm-schedule", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    schedule_date: scheduleDate,
+                    schedule_time: scheduleTime
+                }),
+            });
+
+            console.log("response from confirm-schedule api == ", response);
+            const data = await response.json();
+            console.log("response.data from confirm-schedule api == ", data);
+
+
+            } catch (error) {
+                console.log("error from update active list : ", error)
+            }
+        }
+
+        async function clearActiveList(listId){
+
+            const response = await fetch(`http://localhost:5000/api/list/active/clear/${listId}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json"},
+            });
+
+            console.log("response from clearActiveList api == ", response);
+            const data = await response.json();
+            console.log("response.data from clearActiveList api == ", data);
+        }
+
+        async function confirmSchedule(event) {
+            const activeListItems = await getActiveListItemsAPI()
+            console.log("confirm schedule button clicked !");
+
+            if(activeListItems.length === 0){
+                return;
+            }
+
+            const selectedDate = document.querySelector(`#schedule-date`).value;
+            const selectedTime = document.querySelector(`#schedule-time`).value;
             const dateTime = new Date(`${selectedDate}T${selectedTime}`);
 
+            console.log("selected-date = ", selectedDate);
+            console.log("selected-time = ", selectedTime);
+            console.log("date-time = ", dateTime);
+
+            await updateActiveListToScheduled(selectedDate, selectedTime);
+
             if (!isNaN(dateTime) && dateTime > new Date()) {
-                if (activeCountdowns[itemId]) {
-                    clearInterval(activeCountdowns[itemId]);
-                    delete activeCountdowns[itemId];
-                }
+                // if (activeCountdowns[itemId]) {
+                //     clearInterval(activeCountdowns[itemId]);
+                //     delete activeCountdowns[itemId];
+                // }
 
-                localStorage.setItem(`countdown-${itemId}`, JSON.stringify({
-                    targetDate: dateTime.toISOString()
-                }));
+                // localStorage.setItem(`countdown-${itemId}`, JSON.stringify({
+                //     targetDate: dateTime.toISOString()
+                // }));
 
-                startCountdown(itemId, dateTime);
+                // startCountdown(itemId, dateTime);
+                document.querySelector(`#schedule-date`).value = "";
+                document.querySelector(`#schedule-time`).value = "";
+                await loadMyListAPI();
+
             } else {
                 alert("Please select a valid future date and time.");
             }
@@ -420,7 +551,7 @@
             loadMyList();
         }
 
-        async function removeProductAPI(event){
+        async function removeProductAPI(event) {
             try {
                 const removeButton = event.target;
                 const myListItem = removeButton.closest('.mylist-item');

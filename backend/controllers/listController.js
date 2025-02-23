@@ -42,7 +42,9 @@ export const getScheduledLists = async (req, res) => {
 
 		res.status(200).json({ list });
 	} catch (err) {
-		res.status(500).json({ message: "Error fetching scheduled list", error: err });
+		res
+			.status(500)
+			.json({ message: "Error fetching scheduled list", error: err });
 		console.error(err);
 	}
 };
@@ -105,7 +107,7 @@ export const addToActiveList = async (req, res) => {
 	}
 };
 
-// update list item quantity 
+// update list item quantity
 export const updateActiveListItem = async (req, res) => {
 	try {
 		const { list_item_id, quantity } = req.body;
@@ -140,58 +142,83 @@ export const updateActiveListItem = async (req, res) => {
 	}
 };
 
-
 // Remove item from list
 export const removeFromActiveList = async (req, res) => {
-    try {
-      const { list_item_id } = req.params;
-  
-      const listItem = await ListItem.findByPk(list_item_id);
-      if (!listItem) {
-        return res.status(404).json({ message: "List item not found" });
-      }
+	try {
+		const { list_item_id } = req.params;
 
-    
-      const list_id = listItem.list_id;
-      await listItem.destroy();
-  
-      // Update list total
-      const list = await List.findByPk(list_id);
-      list.total = await ListItem.sum('price', {
-        where: { list_id }
-      });
-      await list.save();
-  
-      res.status(200).json({ 
-        message: "Item removed from list successfully",
-        list
-      });
-    } catch (err) {
-      res.status(500).json({ message: "Error removing item from list", error: err });
-      console.error(err);
-    }
-  };
+		const listItem = await ListItem.findByPk(list_item_id);
+		if (!listItem) {
+			return res.status(404).json({ message: "List item not found" });
+		}
 
+		const list_id = listItem.list_id;
+		await listItem.destroy();
 
-// clear list 
+		// Update list total
+		const list = await List.findByPk(list_id);
+		list.total = await ListItem.sum("price", {
+			where: { list_id },
+		});
+		await list.save();
+
+		res.status(200).json({
+			message: "Item removed from list successfully",
+			list,
+		});
+	} catch (err) {
+		res
+			.status(500)
+			.json({ message: "Error removing item from list", error: err });
+		console.error(err);
+	}
+};
+
+export const updateToScheduledList = async (req, res) => {
+	try {
+		const scheduleDate = req.body.schedule_date;
+		const scheduleTime = req.body.schedule_time;
+
+		const activeList = await List.findOne({
+			where: {
+				status: "active",
+			},
+		});
+
+		activeList.status = "scheduled";
+		activeList.schedule_date = scheduleDate;
+		activeList.schedule_time = scheduleTime;
+
+		await activeList.save();
+
+		res.status(200).json({
+			message: "List updated to scheduled",
+			activeList,
+		});
+	} catch (err) {
+		res.status(500).json({ message: "Error updating list", error: err });
+		console.error(err);
+	}
+};
+
+// clear list
 export const clearActiveList = async (req, res) => {
-    try {
-      const { list_id } = req.params;
-  
-      await ListItem.destroy({
-        where: { list_id }
-      });
-  
-      const list = await List.findByPk(list_id);
-      list.total = 0;
-      await list.save();
-  
-      res.status(200).json({ 
-        message: "List cleared successfully",
-        list
-      });
-    } catch (err) {
-      res.status(500).json({ message: "Error clearing list", error: err });
-      console.error(err);
-    }
-  };
+	try {
+		
+		await ListItem.destroy({
+			where: { list_id },
+		});
+
+		const list = await List.findByPk(list_id);
+		list.total = 0;
+		await list.save();
+
+		res.status(200).json({
+			message: "List cleared successfully",
+			list,
+		});
+	} catch (err) {
+		res.status(500).json({ message: "Error clearing list", error: err });
+		console.error(err);
+	}
+};
