@@ -1,6 +1,5 @@
 import List from "../model/list.js";
 import ListItem from "../model/listItem.js";
-import { Op } from "sequelize";
 
 // Get or create active list for user
 export const getActiveList = async (req, res) => {
@@ -91,9 +90,12 @@ export const addToActiveList = async (req, res) => {
 		}
 
 		// Update list total
-		list.total = await ListItem.sum("price", {
-			where: { list_id: list.id },
-		});
+		const listItems = await ListItem.findAll({ where: { list_id: list.id } });
+		const total = listItems.reduce((sum, item) => {
+		return sum + parseFloat(item.price) * parseInt(item.quantity);
+		}, 0);
+
+		list.total = total;
 		await list.save();
 
 		res.status(200).json({
@@ -126,10 +128,16 @@ export const updateActiveListItem = async (req, res) => {
 
 		// Update list total
 		const list = await List.findByPk(listItem.list_id);
-		list.total = await ListItem.sum("price", {
-			where: { list_id: list.id },
-		});
+		const listItems = await ListItem.findAll({ where: { list_id: list.id } });
+
+		const total = listItems.reduce((sum, item) => {
+		return sum + parseFloat(item.price) * parseInt(item.quantity);
+		}, 0);
+
+		list.total = total;
 		await list.save();
+
+		
 
 		res.status(200).json({
 			message: "List item updated successfully",
@@ -157,9 +165,13 @@ export const removeFromActiveList = async (req, res) => {
 
 		// Update list total
 		const list = await List.findByPk(list_id);
-		list.total = await ListItem.sum("price", {
-			where: { list_id },
-		});
+		const listItems = await ListItem.findAll({ where: { list_id: list.id } });
+
+		const total = listItems.reduce((sum, item) => {
+		return sum + parseFloat(item.price) * parseInt(item.quantity);
+		}, 0);
+
+		list.total = total;
 		await list.save();
 
 		res.status(200).json({

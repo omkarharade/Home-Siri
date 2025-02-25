@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <script src="../js/profile.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="../js/data.js" defer></script>
     <script src="../js/search.js" defer></script>
     <script src="../js/filter.js" defer></script>
@@ -167,6 +168,7 @@
         <div id="active-list-items"></div>
 
         <div>
+
             <div>
                 <label for="schedule-date">Select Date:</label>
                 <input type="date" id="schedule-date">
@@ -174,6 +176,8 @@
                 <label for="schedule-time">Select Time:</label>
                 <input type="time" id="schedule-time" step="1">
             </div>
+
+            <h2 class="list-total" id="list-total">Total: ₹0.00</h2>
 
             <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
         </div>
@@ -203,6 +207,7 @@
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
             const activeListItems = await getActiveListItemsAPI()
             const scheduledLists = await getScheduledListAPI();
+            const listTotal = document.getElementById("list-total")
 
             console.log("showing active list items == ", activeListItems)
 
@@ -213,6 +218,7 @@
             myListContainer.innerHTML = "";
             activeListContainer.innerHTML = "";
             AllScheduledListContainer.innerHTML = "";
+            let total = 0
 
             if (activeListItems.length === 0) {
                 activeListContainer.innerHTML = "<p class='empty-message'>Your List Is Empty!</p>";
@@ -238,6 +244,7 @@
                     </div>
                 `;
                     activeListContainer.appendChild(activeListItem);
+                    total += (item.price * item.quantity);
 
                     const storedCountdown = JSON.parse(localStorage.getItem(`countdown-${item.id}`));
                     if (storedCountdown) {
@@ -247,6 +254,8 @@
                         }
                     }
                 });
+
+                listTotal.innerText = `Total: ₹${total.toFixed(2)}`;
 
             }
 
@@ -335,6 +344,7 @@
             return data.list || [];
         }
 
+
         async function getActiveListItemsAPI() {
 
             const userId = await JSON.parse(
@@ -361,6 +371,30 @@
             return data.list.ListItems || [];
         }
 
+        async function getActiveListAPI() {
+            const userId = await JSON.parse(
+                document.getElementById("user-id").getAttribute("data-userId")
+            );
+
+            const params = new URLSearchParams({
+                user_id: userId,
+            });
+            const url = `http://localhost:5000/api/list/active?${params}`;
+
+            console.log("userid == ", userId);
+
+            const response = await fetch(url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            const data = await response.json();
+
+            console.log("response of getActiveList from API = ", response);
+            console.log("response.json() of getActiveList from API = ", data);
+            console.log("activeList", data.list);
+
+            return data.list;
+        }
 
         function loadMyList() {
             const myListItems = JSON.parse(localStorage.getItem("myListItems")) || [];
@@ -418,17 +452,17 @@
 
             try {
                 const response = await fetch("http://localhost:5000/api/list/active/confirm-schedule", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    schedule_date: scheduleDate,
-                    schedule_time: scheduleTime
-                }),
-            });
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        schedule_date: scheduleDate,
+                        schedule_time: scheduleTime
+                    }),
+                });
 
-            console.log("response from confirm-schedule api == ", response);
-            const data = await response.json();
-            console.log("response.data from confirm-schedule api == ", data);
+                console.log("response from confirm-schedule api == ", response);
+                const data = await response.json();
+                console.log("response.data from confirm-schedule api == ", data);
 
 
             } catch (error) {
@@ -436,11 +470,11 @@
             }
         }
 
-        async function clearActiveList(listId){
+        async function clearActiveList(listId) {
 
             const response = await fetch(`http://localhost:5000/api/list/active/clear/${listId}`, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
             });
 
             console.log("response from clearActiveList api == ", response);
@@ -452,34 +486,85 @@
             const activeListItems = await getActiveListItemsAPI()
             console.log("confirm schedule button clicked !");
 
-            if(activeListItems.length === 0){
+            if (activeListItems.length === 0) {
                 return;
             }
+            const activeList = await getActiveListAPI();
 
             const selectedDate = document.querySelector(`#schedule-date`).value;
             const selectedTime = document.querySelector(`#schedule-time`).value;
             const dateTime = new Date(`${selectedDate}T${selectedTime}`);
+            const activeListTotal = activeList.total;
+            const listTotal = document.getElementById("list-total")
 
             console.log("selected-date = ", selectedDate);
             console.log("selected-time = ", selectedTime);
             console.log("date-time = ", dateTime);
 
-            await updateActiveListToScheduled(selectedDate, selectedTime);
+            if (selectedDate != null && selectedTime != null && !isNaN(dateTime) && dateTime > new Date()) {
 
-            if (!isNaN(dateTime) && dateTime > new Date()) {
-                // if (activeCountdowns[itemId]) {
-                //     clearInterval(activeCountdowns[itemId]);
-                //     delete activeCountdowns[itemId];
-                // }
+                const response = await fetch("http://localhost:5000/create-order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        amount: activeListTotal,
+                        receipt: `receipt_${new Date().getTime()}`,
+                    }),
+                });
 
-                // localStorage.setItem(`countdown-${itemId}`, JSON.stringify({
-                //     targetDate: dateTime.toISOString()
-                // }));
+                const order = await response.json();
 
-                // startCountdown(itemId, dateTime);
-                document.querySelector(`#schedule-date`).value = "";
-                document.querySelector(`#schedule-time`).value = "";
-                await loadMyListAPI();
+                console.log("order created using create-order verify pending ===  ", order);
+
+                const options = {
+                    key: "rzp_test_ZEsh3BtedaNCaU", // Replace with your Razorpay key ID
+                    amount: order.amount,
+                    currency: order.currency,
+                    name: "FreshCart",
+                    description: "Test Transaction",
+                    order_id: order.id,
+                    prefill: {
+                        name: "FreshCart"
+                    },
+                    handler: async function (response) {
+                        try {
+                            const verifyResponse = await fetch(
+                                "http://localhost:5000/verify-Payment",
+                                {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify(response),
+                                }
+                            );
+
+                            const verifyResult = await verifyResponse.json();
+
+                            console.log("verify result output === ", verifyResult);
+                            if (verifyResult.error) {
+                                alert("Payment verification failed!");
+                            } else {
+                                alert("Your payment is completed!");
+                                await updateActiveListToScheduled(selectedDate, selectedTime);
+                                document.querySelector(`#schedule-date`).value = "";
+                                document.querySelector(`#schedule-time`).value = "";
+                                listTotal.innerText = `Total: ₹${(0.00).toFixed(2)}`;
+                                await loadMyListAPI();
+                            }
+                        } catch (err) {
+                            console.error("Payment verification error:", err);
+                            alert("Payment verification failed!");
+                        }
+                    },
+                };
+
+                // Ensure Razorpay SDK is loaded before creating an instance
+                if (!window.Razorpay) {
+                    alert("Razorpay SDK failed to load. Check your internet connection.");
+                    return;
+                }
+
+                const rzp = new window.Razorpay(options);
+                rzp.open();
 
             } else {
                 alert("Please select a valid future date and time.");

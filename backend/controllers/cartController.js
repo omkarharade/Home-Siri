@@ -1,6 +1,6 @@
 import Cart from "../model/cart.js";
 import CartItem from "../model/cartItem.js";
-import { Op } from "sequelize";
+import { literal } from "sequelize";
 
 // Get or create cart for user
 export const getCart = async (req, res) => {
@@ -102,9 +102,13 @@ export const updateCartItem = async (req, res) => {
 
     // Update cart total
     const cart = await Cart.findByPk(cartItem.cart_id);
-    cart.total = await CartItem.sum('price', {
-      where: { cart_id: cart.id }
-    });
+    const cartItems = await CartItem.findAll({ where: { cart_id: cart.id } });
+
+    const total = cartItems.reduce((sum, item) => {
+      return sum + parseFloat(item.price) * parseInt(item.quantity);
+    }, 0);
+
+    cart.total = total;
     await cart.save();
 
     res.status(200).json({ 
@@ -134,9 +138,13 @@ export const removeFromCart = async (req, res) => {
 
     // Update cart total
     const cart = await Cart.findByPk(cart_id);
-    cart.total = await CartItem.sum('price', {
-      where: { cart_id }
-    });
+    const cartItems = await CartItem.findAll({ where: { cart_id: cart.id } });
+
+    const total = cartItems.reduce((sum, item) => {
+      return sum + parseFloat(item.price) * parseInt(item.quantity);
+    }, 0);
+
+    cart.total = total;
     await cart.save();
 
     res.status(200).json({ 
