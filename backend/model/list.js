@@ -27,6 +27,24 @@ const List = sequelize.define("List", {
     type: DataTypes.DECIMAL(10, 2),
     defaultValue: 0.00,
   },
+
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  coupon_applied: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   status: {
     type: DataTypes.STRING,
     defaultValue: "active", // active , scheduled (they will be present below the active list) (ordered List will be present in orders tab)

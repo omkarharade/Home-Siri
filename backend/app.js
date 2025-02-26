@@ -4,18 +4,21 @@ import cors from "cors";
 import Razorpay from "razorpay";
 import authRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
-import router from "./routes/userRoutes.js"
+import orderRouter from "./routes/orderRoutes.js"
 import listRouter from "./routes/listRoutes.js"
 import crypto from "crypto";
 import cron from "node-cron";
 import User from "../backend/model/user.js";
+import List from "./model/list.js";
+import ListItem from "./model/listItem.js";
+import Order from "./model/order.js";
 import { Op } from 'sequelize';
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use("/api/auth", authRouter);  // Auth routes (signup/login)
-app.use("/api/orders", router); // Order routes (create/get)
+app.use("/api/orders", orderRouter); // Order routes (create/get)
 app.use("/api/cart", cartRouter);
 app.use("/api/list", listRouter);
 
@@ -27,6 +30,49 @@ const razorpay = new Razorpay({
 });
 
 
+// Function to process scheduled lists
+const processScheduledLists = async () => {
+  try {
+    const now = new Date();
+    
+    // Find lists where schedule_date and schedule_time are due
+    const dueLists = await List.findAll({
+      where: {
+        status: "scheduled",
+        schedule_date: { [Op.lte]: now.toISOString().split("T")[0] }, // Compare date
+        schedule_time: { [Op.lte]: now.toTimeString().split(" ")[0] }, // Compare time
+      },
+      include: [ListItem],
+    });
+
+    console.log("dueLists", dueLists)
+
+    for (const list of dueLists) {
+      if (!list.ListItems.length) continue; // Skip empty lists
+
+      // Create an order from the list
+      await Order.create({
+        user_id: list.user_id,
+        total: list.total,
+        address: list.address, // Fetch from user profile if needed
+        phone: list.phone, // Fetch from user profile
+        email: list.email, // Fetch from user profile
+        status: "completed",
+      });
+
+       // Delete all list items first to maintain referential integrity
+       await ListItem.destroy({ where: { list_id: list.id } });
+
+       // Delete the list after processing
+       await list.destroy();
+    }
+
+    console.log(`Processed and deleted ${dueLists.length} scheduled lists.`);
+  } catch (err) {
+    console.error("Error processing scheduled lists:", err);
+  }
+};
+
 cron.schedule('* * * * *', async () => { // Runs every minute
   const now = new Date();
   await User.update(
@@ -34,6 +80,9 @@ cron.schedule('* * * * *', async () => { // Runs every minute
     { where: { premium_expires_at: { [Op.lt]: now } } }
   );
   console.log('Checked and downgraded expired premium users.');
+
+  console.log("Running scheduled list processing...");
+  await processScheduledLists();
 });
 
 // Payment Order Creation

@@ -190,6 +190,9 @@ export const updateToScheduledList = async (req, res) => {
 	try {
 		const scheduleDate = req.body.schedule_date;
 		const scheduleTime = req.body.schedule_time;
+		const address = req.body.address;
+		const phoneNumber = req.body.phone;
+		const email = req.body.email;
 
 		const activeList = await List.findOne({
 			where: {
@@ -200,6 +203,10 @@ export const updateToScheduledList = async (req, res) => {
 		activeList.status = "scheduled";
 		activeList.schedule_date = scheduleDate;
 		activeList.schedule_time = scheduleTime;
+		activeList.phone = phoneNumber;
+		activeList.email = email;
+		activeList.address = address;
+		
 
 		await activeList.save();
 

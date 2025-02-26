@@ -62,6 +62,37 @@
             font-weight: bold;
         }
 
+        .details-container {
+            margin-top: 20px;
+            padding: 10px 0;
+            width: 30rem;
+        }
+
+        .details-section {
+            margin-bottom: 15px;
+        }
+
+        .details-section label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .details-section input,
+        .details-section textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .details-section textarea {
+            resize: none;
+            /* Prevents unnecessary resizing */
+        }
+
         .countdown {
             font-size: 1.2em;
             color: #ff0000;
@@ -114,7 +145,6 @@
             text-align: center;
             padding: 10px;
             background-color: #f1f1f1;
-            position: fixed;
             bottom: 0;
             width: 100%;
         }
@@ -168,7 +198,6 @@
         <div id="active-list-items"></div>
 
         <div>
-
             <div>
                 <label for="schedule-date">Select Date:</label>
                 <input type="date" id="schedule-date">
@@ -179,7 +208,26 @@
 
             <h2 class="list-total" id="list-total">Total: ₹0.00</h2>
 
-            <button class="confirm-schedule" data-id="${item.id}">Confirm Schedule</button>
+            <div class="details-container">
+                <h3>Address & Contact Details</h3>
+                <div class="details-section">
+                    <label for="address">Address:</label>
+                    <textarea id="address" placeholder="Enter your address" rows="4"></textarea>
+                    <span class="error" id="address-error"></span>
+                </div>
+                <div class="details-section">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" placeholder="Enter your phone number">
+                    <span class="error" id="phone-error"></span>
+                </div>
+                <div class="details-section">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email">
+                    <span class="error" id="email-error"></span>
+                </div>
+            </div>
+
+            <button class="confirm-schedule">Confirm Schedule</button>
         </div>
     </div>
 
@@ -195,7 +243,7 @@
 
     <!-- -------------------------------------------------------------------------- -->
 
-    <footer>
+    <footer class="">
         <p>© 2024 FreshCart. All rights reserved.</p>
     </footer>
 
@@ -301,6 +349,9 @@
                         <p>List Total: ₹${isNaN(totalFloat) ? "N/A" : totalFloat.toFixed(2)}</p>
                         <p>Schedule Date: ${scheduledList.schedule_date}</p>
                         <p>Schedule Time: ${scheduledList.schedule_time}</p>
+                        <p>email: ${scheduledList.email}</p>
+                        <p>phone: ${scheduledList.phone}</p>
+                        <p>address: ${scheduledList.address}</p>
                     </div>
                     `;
                 scheduledListContainer.appendChild(scheduleDetails);
@@ -448,13 +499,16 @@
         }
 
 
-        async function updateActiveListToScheduled(scheduleDate, scheduleTime) {
+        async function updateActiveListToScheduled(scheduleDate, scheduleTime, address, phone, email) {
 
             try {
                 const response = await fetch("http://localhost:5000/api/list/active/confirm-schedule", {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
+                        address:address,
+                        phone:phone,
+                        email: email,
                         schedule_date: scheduleDate,
                         schedule_time: scheduleTime
                     }),
@@ -482,11 +536,35 @@
             console.log("response.data from clearActiveList api == ", data);
         }
 
+        function validateCheckoutDetails() {
+            const address = document.getElementById("address").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phoneRegex = /^[0-9]{10}$/; // Validates 10-digit phone numbers
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Validates email format
+
+            if (!address) {
+                alert("Please enter your address.");
+                return false;
+            }
+            if (!phoneRegex.test(phone)) {
+                alert("Please enter a valid 10-digit phone number.");
+                return false;
+            }
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+            return true;
+        }
+        
+        
         async function confirmSchedule(event) {
             const activeListItems = await getActiveListItemsAPI()
             console.log("confirm schedule button clicked !");
 
             if (activeListItems.length === 0) {
+                alert("list is empty")
                 return;
             }
             const activeList = await getActiveListAPI();
@@ -497,9 +575,20 @@
             const activeListTotal = activeList.total;
             const listTotal = document.getElementById("list-total")
 
+
             console.log("selected-date = ", selectedDate);
             console.log("selected-time = ", selectedTime);
             console.log("date-time = ", dateTime);
+
+            // Validate address and contact details
+            if (!validateCheckoutDetails()) {
+                return;
+            }
+
+
+            const address = document.getElementById("address").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+            const email = document.getElementById("email").value.trim();
 
             if (selectedDate != null && selectedTime != null && !isNaN(dateTime) && dateTime > new Date()) {
 
@@ -544,9 +633,12 @@
                                 alert("Payment verification failed!");
                             } else {
                                 alert("Your payment is completed!");
-                                await updateActiveListToScheduled(selectedDate, selectedTime);
+                                await updateActiveListToScheduled(selectedDate, selectedTime, address, phone, email);
                                 document.querySelector(`#schedule-date`).value = "";
                                 document.querySelector(`#schedule-time`).value = "";
+                                document.querySelector(`#phone`).value = "";
+                                document.querySelector(`#address`).value = "";
+                                document.querySelector(`#email`).value = "";
                                 listTotal.innerText = `Total: ₹${(0.00).toFixed(2)}`;
                                 await loadMyListAPI();
                             }
