@@ -49,14 +49,10 @@ const List = sequelize.define("List", {
     type: DataTypes.STRING,
     defaultValue: "active", // active , scheduled (they will be present below the active list) (ordered List will be present in orders tab)
   },
-  schedule_date: {
-    type: DataTypes.DATEONLY, // Stores only date (YYYY-MM-DD)
-    allowNull: true, // Can be null if not scheduled
+  schedule_date_time: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
-  schedule_time: {
-    type: DataTypes.TIME, // Stores only time (HH:MM:SS)
-    allowNull: true, // Can be null if not scheduled
-  }
 }, {
   timestamps: true,
 });

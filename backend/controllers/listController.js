@@ -188,8 +188,7 @@ export const removeFromActiveList = async (req, res) => {
 
 export const updateToScheduledList = async (req, res) => {
 	try {
-		const scheduleDate = req.body.schedule_date;
-		const scheduleTime = req.body.schedule_time;
+		const scheduleDateTime = req.body.schedule_date_time;
 		const address = req.body.address;
 		const phoneNumber = req.body.phone;
 		const email = req.body.email;
@@ -201,12 +200,11 @@ export const updateToScheduledList = async (req, res) => {
 		});
 
 		activeList.status = "scheduled";
-		activeList.schedule_date = scheduleDate;
-		activeList.schedule_time = scheduleTime;
+		activeList.schedule_date_time = scheduleDateTime;
 		activeList.phone = phoneNumber;
 		activeList.email = email;
 		activeList.address = address;
-		
+
 
 		await activeList.save();
 

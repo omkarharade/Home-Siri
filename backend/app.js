@@ -39,8 +39,7 @@ const processScheduledLists = async () => {
     const dueLists = await List.findAll({
       where: {
         status: "scheduled",
-        schedule_date: { [Op.lte]: now.toISOString().split("T")[0] }, // Compare date
-        schedule_time: { [Op.lte]: now.toTimeString().split(" ")[0] }, // Compare time
+        schedule_date_time: { [Op.lte]: now }, // Compare date
       },
       include: [ListItem],
     });

@@ -1131,3 +1131,12 @@ nav ul li a:hover {
 .list-total{
   margin: 1rem 0;
 }
+
+.my-list-container{
+  margin: 0 15px;
+  max-width: 60rem;
+}
+
+#active-list-items{
+  margin:0 0 50px 0;
+}

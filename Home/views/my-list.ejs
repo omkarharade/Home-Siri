@@ -12,7 +12,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="../js/data.js" defer></script>
     <script src="../js/search.js" defer></script>
-    <script src="../js/filter.js" defer></script>
+    <script src="../js/filter.js" defer></script> 
     <script src="../js/loader.js" defer></script>
 
     <style>
@@ -192,7 +192,7 @@
     <h1>My List</h1>
     <div id="mylist-items"></div>
 
-    <div class="">
+    <div class="my-list-container">
 
         <!-- loading active list items here -->
         <div id="active-list-items"></div>
@@ -248,6 +248,14 @@
     </footer>
 
     <script>
+
+
+        function convertToIST(utcDateString) {
+            const date = new Date(utcDateString);
+            return date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+        }
+
+
         let activeCountdowns = {};
 
         async function loadMyListAPI() {
@@ -347,8 +355,7 @@
                 scheduleDetails.innerHTML = `
                     <div class="mylist-item-details">
                         <p>List Total: ₹${isNaN(totalFloat) ? "N/A" : totalFloat.toFixed(2)}</p>
-                        <p>Schedule Date: ${scheduledList.schedule_date}</p>
-                        <p>Schedule Time: ${scheduledList.schedule_time}</p>
+                        <p>Scheduled Date Time: ${convertToIST(scheduledList.schedule_date_time)}</p>
                         <p>email: ${scheduledList.email}</p>
                         <p>phone: ${scheduledList.phone}</p>
                         <p>address: ${scheduledList.address}</p>
@@ -499,18 +506,17 @@
         }
 
 
-        async function updateActiveListToScheduled(scheduleDate, scheduleTime, address, phone, email) {
+        async function updateActiveListToScheduled(dateTime, address, phone, email) {
 
             try {
                 const response = await fetch("http://localhost:5000/api/list/active/confirm-schedule", {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        address:address,
-                        phone:phone,
+                        address: address,
+                        phone: phone,
                         email: email,
-                        schedule_date: scheduleDate,
-                        schedule_time: scheduleTime
+                        schedule_date_time: dateTime
                     }),
                 });
 
@@ -557,8 +563,8 @@
             }
             return true;
         }
-        
-        
+
+
         async function confirmSchedule(event) {
             const activeListItems = await getActiveListItemsAPI()
             console.log("confirm schedule button clicked !");
@@ -633,7 +639,7 @@
                                 alert("Payment verification failed!");
                             } else {
                                 alert("Your payment is completed!");
-                                await updateActiveListToScheduled(selectedDate, selectedTime, address, phone, email);
+                                await updateActiveListToScheduled(dateTime, address, phone, email);
                                 document.querySelector(`#schedule-date`).value = "";
                                 document.querySelector(`#schedule-time`).value = "";
                                 document.querySelector(`#phone`).value = "";
